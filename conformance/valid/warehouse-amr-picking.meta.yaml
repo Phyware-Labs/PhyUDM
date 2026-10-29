@@ -1,0 +1,3 @@
+purpose: AMR starting a pick-and-place task with rich envelope.
+expected_result: valid
+schema_path: event.schema.json

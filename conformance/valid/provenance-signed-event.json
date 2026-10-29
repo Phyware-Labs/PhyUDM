@@ -1,0 +1,19 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000402",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "provenance": {
+    "signature": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+    "key_id": "key-2026-q2",
+    "algorithm": "hmac-sha256",
+    "signed_fields": [
+      "event_id",
+      "captured_at",
+      "source_id"
+    ],
+    "signed_at": "2026-06-07T19:00:00Z"
+  }
+}

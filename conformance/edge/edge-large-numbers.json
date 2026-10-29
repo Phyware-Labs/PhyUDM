@@ -1,0 +1,25 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000805",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "operational": {
+    "uptime_sec": 1000000000.0
+  },
+  "compute": {
+    "uptime_sec": 1000000000.0,
+    "load_average": [
+      128.0,
+      128.0,
+      128.0
+    ]
+  },
+  "ai": {
+    "total_inferences": 9000000000
+  },
+  "simulation": {
+    "step_count": 4000000000
+  }
+}

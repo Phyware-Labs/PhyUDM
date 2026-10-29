@@ -1,0 +1,8 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000111",
+  "event_type": "telemetry_periodic",
+  "source_id": "quadruped-001",
+  "source_type": "quadruped",
+  "captured_at": "2026-06-07T19:00:00Z"
+}

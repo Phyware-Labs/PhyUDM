@@ -1,0 +1,21 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000215",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "payload": {
+    "load_status": "partial_load",
+    "total_weight_kg": 42.5,
+    "max_weight_kg": 250.0,
+    "weight_utilization_pct": 17.0,
+    "item_count": 3,
+    "is_secured": true,
+    "center_of_mass_offset_m": [
+      0.02,
+      -0.01,
+      0.4
+    ]
+  }
+}

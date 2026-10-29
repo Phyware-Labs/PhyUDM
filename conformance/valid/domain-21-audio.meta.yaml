@@ -1,0 +1,5 @@
+purpose: Envelope + populated audio domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: audio
+domain_schema: domains/21-audio.schema.json

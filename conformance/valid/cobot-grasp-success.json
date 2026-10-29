@@ -1,0 +1,47 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000302",
+  "event_type": "task_completed",
+  "source_id": "cobot-005",
+  "source_type": "cobot",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "identity": {
+    "source_id": "cobot-005",
+    "source_type": "cobot",
+    "platform": "UR10e",
+    "fleet_id": "cell-2"
+  },
+  "manipulation": {
+    "arm_state": "at_target",
+    "control_mode": "impedance",
+    "collision_avoidance_active": true,
+    "grasp": {
+      "object_id": "widget-42",
+      "phase": "secured"
+    }
+  },
+  "actuators": {
+    "drive_motors": [
+      {
+        "id": "drive-l",
+        "status": "ok"
+      },
+      {
+        "id": "drive-r",
+        "status": "ok"
+      }
+    ],
+    "grippers": [
+      {
+        "id": "grip-1",
+        "state": "open"
+      }
+    ]
+  },
+  "safety": {
+    "safety_state": "normal",
+    "is_safe": true,
+    "speed_limit_mps": 0.25,
+    "safety_system_ok": true
+  }
+}

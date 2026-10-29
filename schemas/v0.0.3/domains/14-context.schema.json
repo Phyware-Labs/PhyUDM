@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/14-context.schema.json",
+  "title": "Context Domain",
+  "description": "Time-of-day, facility, weather, traffic context.",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "facility": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "weather": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "traffic": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

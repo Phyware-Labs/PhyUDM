@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/03-motion.schema.json",
+  "title": "Motion Domain",
+  "description": "Velocities, accelerations, odometry, motion state.",
+  "type": "object",
+  "properties": {
+    "speed_mps": {
+      "type": "number",
+      "minimum": 0
+    },
+    "linear_velocity": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "angular_velocity": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "linear_acceleration": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "angular_acceleration": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "odometry": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "motion_state": {
+      "type": "string",
+      "enum": [
+        "stationary",
+        "moving",
+        "accelerating",
+        "decelerating",
+        "rotating",
+        "reversing"
+      ]
+    },
+    "frame_id": {
+      "type": "string"
+    },
+    "commanded_linear_mps": {
+      "type": "number"
+    },
+    "commanded_angular_dps": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": true
+}

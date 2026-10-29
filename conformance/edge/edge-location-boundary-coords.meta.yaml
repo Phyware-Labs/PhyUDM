@@ -1,0 +1,4 @@
+purpose: "Boundary lat/lon/heading values (90, -180, 0)."
+expected_result: valid
+schema_path: event.schema.json
+notes: Edge cases must still validate against the canonical schema.

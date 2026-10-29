@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/21-audio.schema.json",
+  "title": "Audio Domain",
+  "description": "Microphones, speakers, detected sounds, voice output.",
+  "type": "object",
+  "properties": {
+    "microphones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "speakers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "sound_detection": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "voice_output": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ambient_noise_db": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": true
+}

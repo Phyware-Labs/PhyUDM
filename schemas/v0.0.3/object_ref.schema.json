@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/object_ref.schema.json",
+  "title": "Object Reference",
+  "description": "Cross-domain reference to a first-class entity. ``kind`` is the referenced object class (e.g. ``task``, ``zone``, ``map``, ``component``); ``id`` is the stable string identifier.",
+  "type": "object",
+  "required": [
+    "kind",
+    "id"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Referenced object class.",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "description": "Referenced object identifier.",
+      "minLength": 1
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Optional originating source identifier."
+    }
+  },
+  "additionalProperties": false
+}

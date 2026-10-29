@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/02-location.schema.json",
+  "title": "Location Domain",
+  "description": "Where the source is \u2014 geo, local, semantic, accuracy.",
+  "type": "object",
+  "properties": {
+    "latitude": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "altitude_m": {
+      "type": "number"
+    },
+    "heading_deg": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMaximum": 360
+    },
+    "local": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Local-frame coordinates (x_m, y_m, z_m, ...)."
+    },
+    "grid": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Grid-cell coordinates."
+    },
+    "semantic": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Semantic location (room/zone/poi)."
+    },
+    "horizontal_accuracy_m": {
+      "type": "number",
+      "minimum": 0
+    },
+    "vertical_accuracy_m": {
+      "type": "number",
+      "minimum": 0
+    },
+    "covariance": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Covariance matrix entries."
+    },
+    "frame_id": {
+      "type": "string",
+      "description": "Coordinate frame identifier (e.g. 'map', 'odom')."
+    },
+    "map_id": {
+      "type": "string"
+    },
+    "floor": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": true
+}

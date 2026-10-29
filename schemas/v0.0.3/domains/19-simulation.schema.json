@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/19-simulation.schema.json",
+  "title": "Simulation / Digital Twin Domain",
+  "description": "Sim flag, simulator info, scenario, digital twin link.",
+  "type": "object",
+  "properties": {
+    "is_simulated": {
+      "type": "boolean"
+    },
+    "simulator": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "digital_twin": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "sim_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "time_scale": {
+      "type": "number",
+      "minimum": 0
+    },
+    "step_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": true
+}

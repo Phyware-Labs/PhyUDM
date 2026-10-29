@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/04-power.schema.json",
+  "title": "Power Domain",
+  "description": "Battery, charging, power consumption, runtime estimate.",
+  "type": "object",
+  "properties": {
+    "battery": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Battery state-of-charge/health/voltage/etc."
+    },
+    "charging": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Charging session details."
+    },
+    "power_consumption_w": {
+      "type": "number",
+      "minimum": 0
+    },
+    "average_power_w": {
+      "type": "number",
+      "minimum": 0
+    },
+    "power_source": {
+      "type": "string",
+      "enum": [
+        "battery",
+        "external",
+        "solar",
+        "fuel_cell",
+        "hybrid"
+      ]
+    },
+    "voltage_v": {
+      "type": "number"
+    },
+    "current_a": {
+      "type": "number"
+    },
+    "estimated_runtime_min": {
+      "type": "number",
+      "minimum": 0
+    },
+    "estimated_range_m": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": true
+}

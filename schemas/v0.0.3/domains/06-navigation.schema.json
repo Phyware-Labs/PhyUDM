@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/06-navigation.schema.json",
+  "title": "Navigation Domain",
+  "description": "Localization, SLAM, path, goal, obstacle awareness.",
+  "type": "object",
+  "properties": {
+    "localization": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "slam": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "path": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "goal": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "obstacles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "obstacle_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "semantic_map": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "costmap": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

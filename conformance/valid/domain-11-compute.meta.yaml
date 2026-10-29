@@ -1,0 +1,5 @@
+purpose: Envelope + populated compute domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: compute
+domain_schema: domains/11-compute.schema.json

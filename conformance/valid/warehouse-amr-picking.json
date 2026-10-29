@@ -1,0 +1,126 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000301",
+  "event_type": "task_started",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "identity": {
+    "source_id": "amr-001",
+    "source_type": "amr",
+    "platform": "MiR250",
+    "model": "MiR250-rev3",
+    "serial_number": "SN-1234567",
+    "firmware_version": "2.18.4",
+    "fleet_id": "fleet-warehouse-a",
+    "site_id": "site-dallas-01",
+    "organization_id": "org-acme",
+    "display_name": "Forklift Charlie",
+    "tags": [
+      "picking",
+      "zone-a"
+    ],
+    "metadata": {
+      "team": "ops",
+      "region": "us-tx"
+    },
+    "mac_address": "AA:BB:CC:DD:EE:FF",
+    "ip_address": "10.0.1.42"
+  },
+  "location": {
+    "latitude": 32.7767,
+    "longitude": -96.797,
+    "altitude_m": 134.5,
+    "heading_deg": 270.0,
+    "local": {
+      "x_m": 12.5,
+      "y_m": 4.25,
+      "z_m": 0.0
+    },
+    "horizontal_accuracy_m": 0.05,
+    "vertical_accuracy_m": 0.5,
+    "frame_id": "map",
+    "map_id": "warehouse-a-floor-1",
+    "floor": 1
+  },
+  "motion": {
+    "speed_mps": 1.2,
+    "motion_state": "moving",
+    "frame_id": "base_link",
+    "commanded_linear_mps": 1.2,
+    "commanded_angular_dps": 0.0
+  },
+  "power": {
+    "battery": {
+      "soc_pct": 78.4,
+      "voltage_v": 48.2
+    },
+    "charging": {
+      "is_charging": false
+    },
+    "power_consumption_w": 145.2,
+    "average_power_w": 132.0,
+    "power_source": "battery",
+    "voltage_v": 48.2,
+    "current_a": 3.01,
+    "estimated_runtime_min": 240.0,
+    "estimated_range_m": 14400.0
+  },
+  "operational": {
+    "mode": "autonomous",
+    "state": "executing_task",
+    "previous_state": "ready",
+    "time_in_state_sec": 124.5,
+    "task": {
+      "id": "task-987",
+      "kind": "pick_and_place"
+    },
+    "error_count": 0,
+    "is_available": true,
+    "uptime_sec": 36000.0,
+    "mission_id": "mission-2026-06-07-001",
+    "session_id": "sess-abc"
+  },
+  "navigation": {
+    "localization": {
+      "quality": "good"
+    },
+    "obstacle_count": 2,
+    "obstacles": [
+      {
+        "kind": "human",
+        "distance_m": 4.2
+      },
+      {
+        "kind": "static",
+        "distance_m": 1.8
+      }
+    ]
+  },
+  "safety": {
+    "safety_state": "normal",
+    "is_safe": true,
+    "protective_stop_active": false,
+    "current_zone_ids": [
+      "zone-a",
+      "zone-warehouse"
+    ],
+    "violation_count": 0,
+    "speed_limit_mps": 1.5,
+    "safety_system_ok": true,
+    "last_safety_check": "2026-06-07T18:59:30Z"
+  },
+  "payload": {
+    "load_status": "partial_load",
+    "total_weight_kg": 42.5,
+    "max_weight_kg": 250.0,
+    "weight_utilization_pct": 17.0,
+    "item_count": 3,
+    "is_secured": true,
+    "center_of_mass_offset_m": [
+      0.02,
+      -0.01,
+      0.4
+    ]
+  }
+}

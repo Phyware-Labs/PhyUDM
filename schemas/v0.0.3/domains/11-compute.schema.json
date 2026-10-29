@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/11-compute.schema.json",
+  "title": "Compute Domain",
+  "description": "CPU, memory, GPU, storage, ROS status, host metadata.",
+  "type": "object",
+  "properties": {
+    "cpu": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "memory": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "gpu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "storage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "processes": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ros": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "uptime_sec": {
+      "type": "number",
+      "minimum": 0
+    },
+    "load_average": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "1/5/15-minute load average triple."
+    },
+    "kernel_version": {
+      "type": "string"
+    },
+    "os_version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

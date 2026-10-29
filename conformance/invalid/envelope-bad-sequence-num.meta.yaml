@@ -1,0 +1,5 @@
+purpose: sequence_num must be a non-negative integer.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: sequence_num
+expected_failure_keyword: minimum

@@ -1,0 +1,17 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000311",
+  "event_type": "telemetry_on_change",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "audio": {
+    "ambient_noise_db": 84.2,
+    "sound_detection": [
+      {
+        "type": "alarm",
+        "confidence": 0.97
+      }
+    ]
+  }
+}

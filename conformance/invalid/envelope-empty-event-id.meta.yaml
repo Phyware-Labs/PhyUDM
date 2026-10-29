@@ -1,0 +1,5 @@
+purpose: event_id must be non-empty.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: event_id
+expected_failure_keyword: minLength

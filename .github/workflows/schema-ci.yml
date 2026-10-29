@@ -1,0 +1,68 @@
+name: Schema CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-schemas:
+    name: Validate canonical schemas + conformance suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install toolchain
+        run: make install
+
+      - name: Re-generate schemas (drift check)
+        run: |
+          make build-schemas
+          if ! git diff --quiet schemas/; then
+            echo "::error::schemas/ are out of sync with tools/build_schemas.py."
+            echo "Run 'make build-schemas' locally and commit the result."
+            git diff schemas/ | head -200
+            exit 1
+          fi
+
+      - name: Re-generate conformance fixtures (drift check)
+        run: |
+          make build-conformance
+          if ! git diff --quiet conformance/; then
+            echo "::error::conformance/ is out of sync with tools/build_conformance.py."
+            echo "Run 'make build-conformance' locally and commit the result."
+            git diff conformance/ | head -200
+            exit 1
+          fi
+
+      - name: Run conformance suite
+        run: make validate
+
+  changelog-check:
+    name: Changelog enforcement
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Enforce changelog updates on schemas/ or spec/ changes
+        env:
+          UDM_CHANGELOG_BASE: origin/${{ github.event.pull_request.base.ref }}
+        run: |
+          git fetch origin "${{ github.event.pull_request.base.ref }}" --depth=1
+          python3 tools/changelog_check.py

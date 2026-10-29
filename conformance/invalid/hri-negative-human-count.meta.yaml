@@ -1,0 +1,5 @@
+purpose: hri.human_count must be ≥ 0.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: hri/human_count
+expected_failure_keyword: minimum

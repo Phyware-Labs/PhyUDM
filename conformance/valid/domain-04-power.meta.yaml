@@ -1,0 +1,5 @@
+purpose: Envelope + populated power domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: power
+domain_schema: domains/04-power.schema.json

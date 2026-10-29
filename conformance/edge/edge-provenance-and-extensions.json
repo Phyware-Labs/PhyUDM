@@ -1,0 +1,19 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000813",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "provenance": {
+    "signature": "0000000000000000000000000000000000000000000000000000000000000000",
+    "key_id": "k1",
+    "algorithm": "hmac-sha256",
+    "signed_fields": [
+      "event_id"
+    ]
+  },
+  "extensions": {
+    "vendor_foo": true
+  }
+}

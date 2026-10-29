@@ -1,0 +1,20 @@
+{
+  "event_id": "evt-1",
+  "event_type": "telemetry",
+  "source_id": "src-1",
+  "source_type": "amr",
+  "captured_at": "2026-05-12T10:00:00Z",
+  "udm_version": "1.0",
+  "sent_at": "2026-05-12T10:00:00Z",
+  "received_at": "2026-05-12T10:00:00Z",
+  "sequence_num": 1,
+  "session_id": "sess-1",
+  "identity": {
+    "robot_id": "amr-7"
+  },
+  "location": {
+    "x": 1.0,
+    "y": 2.0,
+    "frame": "map"
+  }
+}

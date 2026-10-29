@@ -1,0 +1,29 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000305",
+  "event_type": "emergency_stop",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "safety": {
+    "safety_state": "emergency_stop",
+    "is_safe": false,
+    "e_stop": {
+      "type": "hardware",
+      "triggered_at": "2026-06-07T19:00:01Z"
+    },
+    "protective_stop_active": true,
+    "protective_stop_reason": "operator_button",
+    "violation_count": 1,
+    "violations": [
+      {
+        "type": "proximity_violation",
+        "severity": "high"
+      }
+    ]
+  },
+  "operational": {
+    "mode": "emergency",
+    "state": "emergency_stopped"
+  }
+}

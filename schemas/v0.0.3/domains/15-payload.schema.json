@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/15-payload.schema.json",
+  "title": "Payload / Cargo Domain",
+  "description": "Load status, weight, items, compartments, securement.",
+  "type": "object",
+  "properties": {
+    "load_status": {
+      "type": "string",
+      "enum": [
+        "empty",
+        "partial_load",
+        "full_load",
+        "overloaded"
+      ]
+    },
+    "total_weight_kg": {
+      "type": "number",
+      "minimum": 0
+    },
+    "max_weight_kg": {
+      "type": "number",
+      "minimum": 0
+    },
+    "weight_utilization_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "item_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "compartments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "is_secured": {
+      "type": "boolean"
+    },
+    "center_of_mass_offset_m": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "Center-of-mass offset (x, y, z) in meters."
+    }
+  },
+  "additionalProperties": true
+}

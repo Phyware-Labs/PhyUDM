@@ -1,0 +1,5 @@
+purpose: motion.speed_mps must be non-negative.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: motion/speed_mps
+expected_failure_keyword: minimum

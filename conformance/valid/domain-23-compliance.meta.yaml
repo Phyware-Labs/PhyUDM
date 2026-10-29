@@ -1,0 +1,5 @@
+purpose: Envelope + populated compliance domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: compliance
+domain_schema: domains/23-compliance.schema.json

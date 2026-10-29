@@ -1,0 +1,30 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000201",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "identity": {
+    "source_id": "amr-001",
+    "source_type": "amr",
+    "platform": "MiR250",
+    "model": "MiR250-rev3",
+    "serial_number": "SN-1234567",
+    "firmware_version": "2.18.4",
+    "fleet_id": "fleet-warehouse-a",
+    "site_id": "site-dallas-01",
+    "organization_id": "org-acme",
+    "display_name": "Forklift Charlie",
+    "tags": [
+      "picking",
+      "zone-a"
+    ],
+    "metadata": {
+      "team": "ops",
+      "region": "us-tx"
+    },
+    "mac_address": "AA:BB:CC:DD:EE:FF",
+    "ip_address": "10.0.1.42"
+  }
+}

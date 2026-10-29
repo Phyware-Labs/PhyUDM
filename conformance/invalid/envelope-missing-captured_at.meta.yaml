@@ -1,0 +1,5 @@
+purpose: "Required envelope field 'captured_at' omitted."
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: captured_at
+expected_failure_keyword: required

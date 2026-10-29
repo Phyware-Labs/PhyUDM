@@ -1,0 +1,23 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000205",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "operational": {
+    "mode": "autonomous",
+    "state": "executing_task",
+    "previous_state": "ready",
+    "time_in_state_sec": 124.5,
+    "task": {
+      "id": "task-987",
+      "kind": "pick_and_place"
+    },
+    "error_count": 0,
+    "is_available": true,
+    "uptime_sec": 36000.0,
+    "mission_id": "mission-2026-06-07-001",
+    "session_id": "sess-abc"
+  }
+}

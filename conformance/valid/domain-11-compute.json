@@ -1,0 +1,25 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000211",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "compute": {
+    "cpu": {
+      "usage_pct": 32.4
+    },
+    "memory": {
+      "used_mb": 2048,
+      "total_mb": 8192
+    },
+    "uptime_sec": 36000.0,
+    "load_average": [
+      0.42,
+      0.51,
+      0.38
+    ],
+    "kernel_version": "6.1.0-amd64",
+    "os_version": "Ubuntu 22.04.4 LTS"
+  }
+}

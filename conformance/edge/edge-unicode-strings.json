@@ -1,0 +1,18 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000804",
+  "event_type": "telemetry_periodic",
+  "source_id": "\u30ed\u30dc\u30c3\u30c8-\ud83e\udd16-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "identity": {
+    "source_id": "\u30ed\u30dc\u30c3\u30c8-\ud83e\udd16-001",
+    "source_type": "amr",
+    "display_name": "Rob\u00f4t \u00c9mile",
+    "tags": [
+      "z\u00ebt\u00e0",
+      "\u03b1\u03b2\u03b3",
+      "\u4e2d\u6587"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000806",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "extensions": {
+    "deep": {
+      "nested": {
+        "more": {
+          "and": {
+            "more": true
+          }
+        }
+      }
+    },
+    "list_of_lists": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "vendor_x": {
+      "build_sha": "deadbeef"
+    }
+  }
+}

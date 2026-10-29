@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/08-safety.schema.json",
+  "title": "Safety Domain",
+  "description": "Safety state, e-stop, zones, violations, collaborative ops.",
+  "type": "object",
+  "properties": {
+    "safety_state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "warning",
+        "protective_stop",
+        "emergency_stop",
+        "safety_interlock",
+        "reduced_speed"
+      ]
+    },
+    "is_safe": {
+      "type": "boolean"
+    },
+    "e_stop": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "protective_stop_active": {
+      "type": "boolean"
+    },
+    "protective_stop_reason": {
+      "type": "string"
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "current_zone_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "proximity": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "violation_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "collaborative_operation": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "speed_limit_mps": {
+      "type": "number",
+      "minimum": 0
+    },
+    "speed_limit_reason": {
+      "type": "string"
+    },
+    "safety_system_ok": {
+      "type": "boolean"
+    },
+    "safety_plc_status": {
+      "type": "string"
+    },
+    "last_safety_check": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": true
+}

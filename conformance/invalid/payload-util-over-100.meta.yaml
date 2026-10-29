@@ -1,0 +1,5 @@
+purpose: "payload.weight_utilization_pct > 100."
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: payload/weight_utilization_pct
+expected_failure_keyword: maximum

@@ -1,0 +1,5 @@
+purpose: coordination.fleet_role not in enum.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: coordination/fleet_role
+expected_failure_keyword: enum

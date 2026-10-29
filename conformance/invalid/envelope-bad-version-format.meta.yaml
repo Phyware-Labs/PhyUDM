@@ -1,0 +1,5 @@
+purpose: udm_version must be full SemVer (major.minor.patch).
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: udm_version
+expected_failure_keyword: pattern

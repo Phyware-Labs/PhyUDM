@@ -1,0 +1,25 @@
+purpose: Legacy fixture from PhyCloud/rust/tests/fixtures/udm_event_request.json. Captured here to track drift between historical PhyCloud test payloads and the canonical UDM schema.
+expected_result: drift_documented
+schema_path: event.schema.json
+drift:
+  -
+    field: udm_version
+    actual: 1.0
+    expected: 0.0.3
+    resolution: PhyCloud fixture to be regenerated against v0.0.3.
+  -
+    field: event_type
+    actual: telemetry
+    expected: telemetry_periodic
+    resolution: "Canonical event_type taxonomy uses *_periodic suffix."
+  -
+    field: identity.robot_id
+    actual: amr-7
+    expected: identity.source_id
+    resolution: Rust SDK + spec normalize on source_id; robot_id was a pre-Phase-1 alias.
+  -
+    field: "location.{x,y,frame}"
+    actual: "{x,y,frame}"
+    expected: "location.local.{x_m,y_m} + location.frame_id"
+    resolution: Canonical schema uses explicit units (_m) and the location.local sub-object; flat x/y/frame is from the pre-Phase-1 location schema.
+notes: This fixture does NOT validate against the canonical schema and is excluded from --conformance pass criteria for the legacy/ partition. Resolution is tracked in the PhyTrace SDKs.

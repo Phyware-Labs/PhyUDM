@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/05-operational.schema.json",
+  "title": "Operational State Domain",
+  "description": "Mode, state, current task, errors, uptime.",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": [
+        "autonomous",
+        "manual",
+        "semi_autonomous",
+        "teleoperated",
+        "learning",
+        "maintenance",
+        "emergency",
+        "idle"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "off",
+        "booting",
+        "ready",
+        "executing_task",
+        "navigating",
+        "manipulating",
+        "charging",
+        "paused",
+        "error",
+        "emergency_stopped",
+        "shutting_down",
+        "recovering"
+      ]
+    },
+    "previous_state": {
+      "type": "string",
+      "enum": [
+        "off",
+        "booting",
+        "ready",
+        "executing_task",
+        "navigating",
+        "manipulating",
+        "charging",
+        "paused",
+        "error",
+        "emergency_stopped",
+        "shutting_down",
+        "recovering"
+      ]
+    },
+    "time_in_state_sec": {
+      "type": "number",
+      "minimum": 0
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Current task description."
+    },
+    "queue": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Pending task queue."
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Operational error entry."
+      }
+    },
+    "error_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "is_available": {
+      "type": "boolean"
+    },
+    "unavailable_reason": {
+      "type": "string"
+    },
+    "uptime_sec": {
+      "type": "number",
+      "minimum": 0
+    },
+    "last_boot": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

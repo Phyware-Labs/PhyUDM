@@ -1,0 +1,5 @@
+purpose: compute.load_average must have exactly 3 entries.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: compute/load_average
+expected_failure_keyword: minItems

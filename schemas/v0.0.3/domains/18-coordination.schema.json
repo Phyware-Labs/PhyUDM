@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/18-coordination.schema.json",
+  "title": "Multi-Agent Coordination Domain",
+  "description": "Fleet role, formations, neighbors, swarm/traffic.",
+  "type": "object",
+  "properties": {
+    "fleet_role": {
+      "type": "string",
+      "enum": [
+        "independent",
+        "leader",
+        "follower",
+        "swarm_member",
+        "coordinator"
+      ]
+    },
+    "formation": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "neighbors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "swarm": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "traffic": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

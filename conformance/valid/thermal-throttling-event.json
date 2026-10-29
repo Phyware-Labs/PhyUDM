@@ -1,0 +1,19 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000309",
+  "event_type": "state_transition",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "thermal": {
+    "thermal_state": "high",
+    "ambient_temp_c": 42.1,
+    "is_throttling": true
+  },
+  "compute": {
+    "cpu": {
+      "usage_pct": 92.0,
+      "temp_c": 88.0
+    }
+  }
+}

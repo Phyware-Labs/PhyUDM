@@ -1,0 +1,27 @@
+[package]
+name = "udm-eventstore-phycloud"
+description = "PhyCloud adapter for udm-eventstore (read path)."
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+keywords = ["udm", "phyudm", "phycloud", "telemetry", "robotics"]
+categories = ["api-bindings", "data-structures"]
+
+[dependencies]
+udm-eventstore = { path = "../udm-eventstore", version = "0.0.3" }
+async-trait = { workspace = true }
+chrono = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true

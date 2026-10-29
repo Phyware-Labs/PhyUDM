@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/16-manipulation.schema.json",
+  "title": "Manipulation Domain",
+  "description": "Arm/end-effector state, workspace, grasp, hand-guiding.",
+  "type": "object",
+  "properties": {
+    "arm_state": {
+      "type": "string",
+      "enum": [
+        "home",
+        "moving",
+        "at_target",
+        "grasping",
+        "placing",
+        "avoiding",
+        "error"
+      ]
+    },
+    "end_effector": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "grasp": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "hand_guiding": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "control_mode": {
+      "type": "string",
+      "enum": [
+        "position",
+        "velocity",
+        "force",
+        "impedance",
+        "hybrid"
+      ]
+    },
+    "collision_avoidance_active": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

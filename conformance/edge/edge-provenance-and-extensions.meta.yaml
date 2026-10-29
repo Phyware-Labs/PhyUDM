@@ -1,0 +1,4 @@
+purpose: Both provenance and extensions populated.
+expected_result: valid
+schema_path: event.schema.json
+notes: Edge cases must still validate against the canonical schema.

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/10-communication.schema.json",
+  "title": "Communication Domain",
+  "description": "Network, cellular, fleet comms, integrations, PhyTrace conn.",
+  "type": "object",
+  "properties": {
+    "network": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "cellular": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "fleet": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "integrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "phytrace": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

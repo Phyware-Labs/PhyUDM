@@ -1,0 +1,5 @@
+purpose: location.latitude exceeds 90 degrees.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: location/latitude
+expected_failure_keyword: maximum

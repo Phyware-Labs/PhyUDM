@@ -1,0 +1,28 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000304",
+  "event_type": "telemetry_snapshot",
+  "source_id": "sim-warehouse-001",
+  "source_type": "simulation",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "simulation": {
+    "is_simulated": true,
+    "simulator": {
+      "type": "gazebo",
+      "version": "11.13"
+    },
+    "time_scale": 1.0,
+    "step_count": 482
+  },
+  "coordination": {
+    "fleet_role": "coordinator",
+    "formation": {
+      "type": "line",
+      "members": 4
+    }
+  },
+  "identity": {
+    "source_id": "sim-warehouse-001",
+    "source_type": "simulation"
+  }
+}

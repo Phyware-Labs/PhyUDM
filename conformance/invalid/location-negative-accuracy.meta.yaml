@@ -1,0 +1,5 @@
+purpose: location.horizontal_accuracy_m must be non-negative.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: location/horizontal_accuracy_m
+expected_failure_keyword: minimum

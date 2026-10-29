@@ -1,0 +1,44 @@
+[package]
+name = "udm-mcp"
+description = "udm-mcp — Model Context Protocol server exposing UDM telemetry analysis tools to LLM agents."
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+keywords = ["udm", "phyudm", "mcp", "model-context-protocol", "robotics"]
+categories = ["command-line-utilities", "api-bindings"]
+
+[[bin]]
+name = "udm-mcp"
+path = "src/main.rs"
+
+[dependencies]
+udm-eventstore = { path = "../udm-eventstore", version = "0.0.3" }
+udm-eventstore-memory = { path = "../udm-eventstore-memory", version = "0.0.3" }
+udm-eventstore-phycloud = { path = "../udm-eventstore-phycloud", version = "0.0.3" }
+
+boon = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+humantime = { workspace = true }
+rmcp = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "io-std", "io-util"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+pretty_assertions = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

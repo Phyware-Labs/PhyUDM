@@ -1,0 +1,5 @@
+purpose: manipulation.control_mode not in enum.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: manipulation/control_mode
+expected_failure_keyword: enum

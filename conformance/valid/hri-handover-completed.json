@@ -1,0 +1,22 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000306",
+  "event_type": "task_completed",
+  "source_id": "humanoid-care-3",
+  "source_type": "humanoid",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "hri": {
+    "interaction_state": "handover",
+    "human_count": 1,
+    "handover": {
+      "state": "complete",
+      "object_id": "cup-7"
+    }
+  },
+  "manipulation": {
+    "arm_state": "home",
+    "end_effector": {
+      "id": "ee-soft-grip"
+    }
+  }
+}

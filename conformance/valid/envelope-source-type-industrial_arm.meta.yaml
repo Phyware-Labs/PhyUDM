@@ -1,0 +1,4 @@
+purpose: "Minimal envelope with source_type='industrial_arm'."
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: source_type

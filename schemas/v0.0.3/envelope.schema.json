@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/envelope.schema.json",
+  "title": "UDM Envelope",
+  "description": "Required + optional envelope fields shared by every UDM event. Domain payloads are layered on top of the envelope in ``event.schema.json``.",
+  "type": "object",
+  "required": [
+    "udm_version",
+    "event_id",
+    "event_type",
+    "source_id",
+    "source_type",
+    "captured_at"
+  ],
+  "properties": {
+    "udm_version": {
+      "type": "string",
+      "description": "Schema version this event conforms to (SemVer).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Globally unique event identifier; UUIDv7 recommended.",
+      "minLength": 1
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "telemetry_periodic",
+        "telemetry_on_change",
+        "telemetry_snapshot",
+        "state_transition",
+        "mode_change",
+        "task_started",
+        "task_completed",
+        "task_failed",
+        "task_cancelled",
+        "goal_reached",
+        "path_blocked",
+        "rerouting",
+        "safety_violation",
+        "emergency_stop",
+        "system_startup",
+        "system_shutdown",
+        "error",
+        "custom"
+      ]
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Unique identifier of the emitting source.",
+      "minLength": 1
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "amr",
+        "agv",
+        "autonomous_forklift",
+        "delivery_robot",
+        "cleaning_robot",
+        "inspection_robot",
+        "security_robot",
+        "industrial_arm",
+        "cobot",
+        "mobile_manipulator",
+        "autonomous_vehicle",
+        "electric_vehicle",
+        "drone",
+        "humanoid",
+        "quadruped",
+        "human",
+        "custom",
+        "simulation"
+      ]
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when data was captured at source."
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when ingest layer received the event."
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when source sent the event."
+    },
+    "sequence_num": {
+      "type": "integer",
+      "description": "Monotonic sequence number from source.",
+      "minimum": 0
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Session/run identifier for grouping events."
+    },
+    "sdk_version": {
+      "type": "string",
+      "description": "Optional emitting SDK version. Rust SDK populates this; third-party emitters MAY omit it."
+    }
+  },
+  "additionalProperties": true
+}

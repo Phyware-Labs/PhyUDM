@@ -1,0 +1,8 @@
+# Shared clippy configuration for every PhyUDM Rust crate.
+# Mirrors the conventions enforced elsewhere in the PhyWare ecosystem.
+
+avoid-breaking-exported-api = false
+msrv = "1.82"
+type-complexity-threshold = 350
+cognitive-complexity-threshold = 30
+too-many-arguments-threshold = 8

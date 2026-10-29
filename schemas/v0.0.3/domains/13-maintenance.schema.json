@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/13-maintenance.schema.json",
+  "title": "Maintenance Domain",
+  "description": "Health score, component status, diagnostics, schedule.",
+  "type": "object",
+  "properties": {
+    "health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "maintenance_due": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "last_maintenance": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "next_maintenance": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "operating_hours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "none",
+        "routine",
+        "soon",
+        "urgent",
+        "critical"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

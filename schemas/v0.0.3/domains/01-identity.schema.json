@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/01-identity.schema.json",
+  "title": "Identity Domain",
+  "description": "Who/what is reporting: stable identifiers, hardware/firmware metadata, organizational placement.",
+  "type": "object",
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "description": "Stable source identifier."
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "amr",
+        "agv",
+        "autonomous_forklift",
+        "delivery_robot",
+        "cleaning_robot",
+        "inspection_robot",
+        "security_robot",
+        "industrial_arm",
+        "cobot",
+        "mobile_manipulator",
+        "autonomous_vehicle",
+        "electric_vehicle",
+        "drone",
+        "humanoid",
+        "quadruped",
+        "human",
+        "custom",
+        "simulation"
+      ]
+    },
+    "platform": {
+      "type": "string",
+      "description": "Vendor platform/product name."
+    },
+    "model": {
+      "type": "string",
+      "description": "Model designation."
+    },
+    "serial_number": {
+      "type": "string"
+    },
+    "firmware_version": {
+      "type": "string"
+    },
+    "hardware_version": {
+      "type": "string"
+    },
+    "fleet_id": {
+      "type": "string"
+    },
+    "site_id": {
+      "type": "string"
+    },
+    "organization_id": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Free-form string\u2192string metadata.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "mac_address": {
+      "type": "string",
+      "pattern": "^([0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$"
+    },
+    "ip_address": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

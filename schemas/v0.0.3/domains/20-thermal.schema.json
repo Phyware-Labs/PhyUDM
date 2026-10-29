@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/20-thermal.schema.json",
+  "title": "Thermal Management Domain",
+  "description": "Thermal state, per-component temps, cooling/heating.",
+  "type": "object",
+  "properties": {
+    "thermal_state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "elevated",
+        "high",
+        "critical",
+        "cold"
+      ]
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "ambient_temp_c": {
+      "type": "number"
+    },
+    "cooling_system": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "heating_system": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "is_throttling": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

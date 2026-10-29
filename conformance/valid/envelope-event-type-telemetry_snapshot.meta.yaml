@@ -1,0 +1,4 @@
+purpose: "Minimal envelope with event_type='telemetry_snapshot'."
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: event_type

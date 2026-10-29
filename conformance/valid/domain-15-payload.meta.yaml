@@ -1,0 +1,5 @@
+purpose: Envelope + populated payload domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: payload
+domain_schema: domains/15-payload.schema.json

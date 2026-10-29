@@ -1,0 +1,4 @@
+purpose: source_type=custom for a vendor-specific platform.
+expected_result: valid
+schema_path: event.schema.json
+notes: Edge cases must still validate against the canonical schema.

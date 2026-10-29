@@ -1,0 +1,42 @@
+[package]
+name = "udm-cli"
+description = "udm — command-line tool for validating, exploring, and analysing UDM telemetry."
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+keywords = ["udm", "phyudm", "cli", "telemetry", "robotics"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "udm"
+path = "src/main.rs"
+
+[dependencies]
+udm-eventstore = { path = "../udm-eventstore", version = "0.0.3" }
+udm-eventstore-memory = { path = "../udm-eventstore-memory", version = "0.0.3" }
+udm-eventstore-phycloud = { path = "../udm-eventstore-phycloud", version = "0.0.3" }
+
+boon = { workspace = true }
+chrono = { workspace = true }
+clap = { workspace = true }
+futures = { workspace = true }
+humantime = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+similar = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["rt", "macros", "fs", "io-util"] }
+url = { workspace = true }
+
+[dev-dependencies]
+assert_cmd = { workspace = true }
+predicates = { workspace = true }
+tempfile = { workspace = true }
+pretty_assertions = { workspace = true }
+
+[lints]
+workspace = true

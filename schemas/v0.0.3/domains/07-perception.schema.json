@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/07-perception.schema.json",
+  "title": "Perception Domain",
+  "description": "Sensor stack, fused detections, environment perception.",
+  "type": "object",
+  "properties": {
+    "lidar": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "cameras": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "imu": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "gps": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "uwb": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "detections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "detection_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "ultrasonics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "bumpers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "cliff_sensors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

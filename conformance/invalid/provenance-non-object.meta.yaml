@@ -1,0 +1,5 @@
+purpose: "provenance must be an object, not a string."
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: provenance
+expected_failure_keyword: type

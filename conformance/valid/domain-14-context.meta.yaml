@@ -1,0 +1,5 @@
+purpose: Envelope + populated context domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: context
+domain_schema: domains/14-context.schema.json

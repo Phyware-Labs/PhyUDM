@@ -1,0 +1,5 @@
+purpose: maintenance.urgency not in enum.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: maintenance/urgency
+expected_failure_keyword: enum

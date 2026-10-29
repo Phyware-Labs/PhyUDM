@@ -1,0 +1,5 @@
+purpose: identity.mac_address must match MAC pattern.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: identity/mac_address
+expected_failure_keyword: pattern

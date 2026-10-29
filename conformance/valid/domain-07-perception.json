@@ -1,0 +1,23 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000207",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "perception": {
+    "lidar": [
+      {
+        "status": "ok",
+        "hz": 10
+      }
+    ],
+    "cameras": [
+      {
+        "status": "ok",
+        "resolution": "1920x1080"
+      }
+    ],
+    "detection_count": 3
+  }
+}

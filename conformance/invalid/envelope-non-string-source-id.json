@@ -1,0 +1,8 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000533",
+  "event_type": "telemetry_periodic",
+  "source_id": 12345,
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z"
+}

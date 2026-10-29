@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/domains/17-hri.schema.json",
+  "title": "Human-Robot Interaction Domain",
+  "description": "Interaction state, tracked humans, voice, handover, social.",
+  "type": "object",
+  "properties": {
+    "interaction_state": {
+      "type": "string",
+      "enum": [
+        "none",
+        "human_detected",
+        "awaiting_input",
+        "interacting",
+        "handover",
+        "following"
+      ]
+    },
+    "tracked_humans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "human_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "handover": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "social": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "gestures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

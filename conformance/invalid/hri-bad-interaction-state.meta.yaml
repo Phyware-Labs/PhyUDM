@@ -1,0 +1,5 @@
+purpose: hri.interaction_state not in enum.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: hri/interaction_state
+expected_failure_keyword: enum

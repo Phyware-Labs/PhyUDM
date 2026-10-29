@@ -1,0 +1,26 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000303",
+  "event_type": "mode_change",
+  "source_id": "drone-aerial-12",
+  "source_type": "drone",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "operational": {
+    "mode": "autonomous",
+    "state": "navigating",
+    "previous_state": "ready",
+    "mission_id": "m-12-2026"
+  },
+  "location": {
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "altitude_m": 80.5,
+    "heading_deg": 180.0
+  },
+  "power": {
+    "battery": {
+      "soc_pct": 64.0
+    },
+    "power_source": "battery"
+  }
+}

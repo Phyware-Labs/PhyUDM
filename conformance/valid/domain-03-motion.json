@@ -1,0 +1,15 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000203",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "motion": {
+    "speed_mps": 1.2,
+    "motion_state": "moving",
+    "frame_id": "base_link",
+    "commanded_linear_mps": 1.2,
+    "commanded_angular_dps": 0.0
+  }
+}

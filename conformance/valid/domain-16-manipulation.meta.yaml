@@ -1,0 +1,5 @@
+purpose: Envelope + populated manipulation domain.
+expected_result: valid
+schema_path: event.schema.json
+target_field_path: manipulation
+domain_schema: domains/16-manipulation.schema.json

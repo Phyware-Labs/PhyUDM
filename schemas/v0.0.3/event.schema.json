@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.phyudm.org/v0.0.3/event.schema.json",
+  "title": "UDM Event",
+  "description": "A complete UDM event: envelope fields + optional payloads for each of the 23 UDM domains + provenance + free-form extensions.",
+  "allOf": [
+    {
+      "$ref": "envelope.schema.json"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "identity": {
+      "$ref": "domains/01-identity.schema.json"
+    },
+    "location": {
+      "$ref": "domains/02-location.schema.json"
+    },
+    "motion": {
+      "$ref": "domains/03-motion.schema.json"
+    },
+    "power": {
+      "$ref": "domains/04-power.schema.json"
+    },
+    "operational": {
+      "$ref": "domains/05-operational.schema.json"
+    },
+    "navigation": {
+      "$ref": "domains/06-navigation.schema.json"
+    },
+    "perception": {
+      "$ref": "domains/07-perception.schema.json"
+    },
+    "safety": {
+      "$ref": "domains/08-safety.schema.json"
+    },
+    "actuators": {
+      "$ref": "domains/09-actuators.schema.json"
+    },
+    "communication": {
+      "$ref": "domains/10-communication.schema.json"
+    },
+    "compute": {
+      "$ref": "domains/11-compute.schema.json"
+    },
+    "ai": {
+      "$ref": "domains/12-ai.schema.json"
+    },
+    "maintenance": {
+      "$ref": "domains/13-maintenance.schema.json"
+    },
+    "context": {
+      "$ref": "domains/14-context.schema.json"
+    },
+    "payload": {
+      "$ref": "domains/15-payload.schema.json"
+    },
+    "manipulation": {
+      "$ref": "domains/16-manipulation.schema.json"
+    },
+    "hri": {
+      "$ref": "domains/17-hri.schema.json"
+    },
+    "coordination": {
+      "$ref": "domains/18-coordination.schema.json"
+    },
+    "simulation": {
+      "$ref": "domains/19-simulation.schema.json"
+    },
+    "thermal": {
+      "$ref": "domains/20-thermal.schema.json"
+    },
+    "audio": {
+      "$ref": "domains/21-audio.schema.json"
+    },
+    "environment_interaction": {
+      "$ref": "domains/22-environment-interaction.schema.json"
+    },
+    "compliance": {
+      "$ref": "domains/23-compliance.schema.json"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Event-level integrity / provenance metadata.",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": "HMAC-SHA256 or similar signature value."
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Identifier of the signing key."
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Signature algorithm (e.g. 'hmac-sha256')."
+        },
+        "signed_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields included in the signature."
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Free-form extension payload. Vendor-specific keys SHOULD be prefixed with ``custom_`` or the vendor namespace; see spec/appendix-b.md.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,24 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000202",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "location": {
+    "latitude": 32.7767,
+    "longitude": -96.797,
+    "altitude_m": 134.5,
+    "heading_deg": 270.0,
+    "local": {
+      "x_m": 12.5,
+      "y_m": 4.25,
+      "z_m": 0.0
+    },
+    "horizontal_accuracy_m": 0.05,
+    "vertical_accuracy_m": 0.5,
+    "frame_id": "map",
+    "map_id": "warehouse-a-floor-1",
+    "floor": 1
+  }
+}
