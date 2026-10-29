@@ -22,9 +22,6 @@ pub type EventStream<'a> = BoxStream<'a, Result<UdmEvent>>;
 /// MCP server's tokio worker threads. They MAY be cloned freely (e.g.
 /// behind an [`Arc`](std::sync::Arc)) — clone semantics are the
 /// adapter's choice.
-// `async_trait` adds a bare `#[must_use]` to each method it rewrites, and the
-// boxed future it returns is already `#[must_use]`.
-#[allow(clippy::double_must_use)]
 #[async_trait]
 pub trait UdmEventStore: Send + Sync {
     /// Fetch one event by id.

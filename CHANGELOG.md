@@ -9,6 +9,11 @@ once it reaches `v0.1.0`.
 
 ## [Unreleased]
 
+### Fixed — build
+
+- Bump `async-trait` to 0.1.92 so `cargo clippy -D warnings` passes on Rust
+  1.99 (`clippy::double_must_use` fired on the macro-generated trait methods).
+
 ### Changed — `udm-eventstore-phycloud` read path
 
 - **`udm-eventstore-phycloud`** now implements the `UdmEventStore` read
