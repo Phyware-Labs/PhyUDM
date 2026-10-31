@@ -1,0 +1,21 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000411",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "provenance": {
+    "signer": "hmac",
+    "algorithm": "hmac-sha256",
+    "key_id": "dev-key-1",
+    "signed_at": "2026-06-07T19:00:00Z",
+    "sequence_num": 1,
+    "boot_epoch": "fedcba9876543210fedcba9876543210",
+    "device_attestation": {
+      "mode": "software",
+      "warning": "no hardware root of trust"
+    },
+    "signature": "3183f9613183f9613183f9613183f9613183f9613183f9613183f9613183f961"
+  }
+}

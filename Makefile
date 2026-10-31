@@ -26,8 +26,9 @@ install:  ## Install Python dependencies for tools/.
 build-schemas:  ## Regenerate schemas/v$(SCHEMA_VERSION)/*.json from tools/build_schemas.py.
 	$(PYTHON) tools/build_schemas.py
 
-build-conformance:  ## Regenerate conformance/{valid,invalid,edge,legacy}/*.
+build-conformance:  ## Regenerate conformance/{valid,invalid,edge,legacy,vectors}/*.
 	$(PYTHON) tools/build_conformance.py
+	$(PYTHON) tools/build_vectors.py
 
 build: build-schemas build-conformance  ## Regenerate all generated artifacts.
 

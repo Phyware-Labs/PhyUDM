@@ -36,6 +36,7 @@
 | `ai.intervention` | Human override of AI decision |
 | `system.startup` | System initialization |
 | `system.shutdown` | System shutdown |
+| `system.heartbeat` | Producer liveness heartbeat; see [Heartbeats](./provenance.md#heartbeats) |
 | `system.error` | System error occurred |
 | `interaction.gesture_detected` | Human gesture recognized |
 | `interaction.voice_command` | Voice command received |

@@ -14,9 +14,12 @@ conformance/
 ├── invalid/    JSON payloads that MUST fail validation
 ├── edge/       Boundary-case payloads that MUST validate (sub-second
 │               timestamps, max numeric values, empty domain slots, ...)
-└── legacy/     Pre-Phase-1 PhyCloud fixtures captured for drift tracking.
-                These are NOT canonical and may fail validation; see each
-                fixture's `*.meta.yaml` for documented drift.
+├── legacy/     Pre-Phase-1 PhyCloud fixtures captured for drift tracking.
+│               These are NOT canonical and may fail validation; see each
+│               fixture's `*.meta.yaml` for documented drift.
+└── vectors/    Signing test vectors: signing payloads and Merkle batch
+                roots and proofs that any producer or verifier must
+                reproduce byte for byte (spec/provenance.md).
 ```
 
 Every `<fixture>.json` is paired with a `<fixture>.meta.yaml` describing:

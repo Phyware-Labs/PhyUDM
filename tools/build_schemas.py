@@ -51,7 +51,7 @@ ENUMS: dict[str, list[str]] = {
         "task_started", "task_completed", "task_failed", "task_cancelled",
         "goal_reached", "path_blocked", "rerouting",
         "safety_violation", "emergency_stop",
-        "system_startup", "system_shutdown",
+        "system_startup", "system_shutdown", "system_heartbeat",
         "error", "custom",
     ],
     "SourceType": [
@@ -684,17 +684,141 @@ def object_ref_schema() -> dict[str, Any]:
     }
 
 
+HEX = "^[0-9a-f]+$"
+HEX_SHA256 = "^[0-9a-f]{64}$"
+
+
 def provenance_schema_fragment() -> dict[str, Any]:
+    """Event-level provenance, written by the producer and covered by its
+    signature.  See spec/provenance.md for the signing rules."""
     return {
         "type": "object",
-        "description": "Event-level integrity / provenance metadata.",
+        "description": (
+            "Producer-side integrity metadata: who signed the event, with "
+            "which key and algorithm, its place in the producer's sequence, "
+            "and the device's attestation state. Every field except "
+            "`signature` is covered by the signature; see spec/provenance.md."
+        ),
         "properties": {
-            "signature": s("HMAC-SHA256 or similar signature value."),
-            "key_id": s("Identifier of the signing key."),
-            "algorithm": s("Signature algorithm (e.g. 'hmac-sha256')."),
-            "signed_fields": arr(s(), "Fields included in the signature."),
-            "signed_at": dt(),
+            "signer": s(
+                "Class of signer, e.g. 'hmac' (shared secret, development) or "
+                "'tpm' (non-exportable hardware key)."
+            ),
+            "algorithm": s(
+                "Signature algorithm: 'es256' (ECDSA P-256 with SHA-256) or "
+                "'hmac-sha256' (development only). Other values are reserved."
+            ),
+            "key_id": s(
+                "Identifier of the signing key. For 'es256': lowercase hex "
+                "SHA-256 of the key's DER SubjectPublicKeyInfo."
+            ),
+            "signature": s(
+                "Signature over the signing payload, lowercase hex. For "
+                "'es256': the 64-byte r || s (as in JWS). Absent when the "
+                "event is covered by `batch` instead.",
+                pattern=HEX,
+            ),
+            "signed_at": dt("When the producer signed the event."),
+            "signed_fields": arr(
+                s(),
+                "Deprecated: signatures cover the whole event (spec/provenance.md).",
+            ),
+            "sequence_num": i(
+                "Per-source sequence number: starts at 1 and never decreases "
+                "while `boot_counter` is unchanged.",
+                minimum=1,
+            ),
+            "boot_epoch": s(
+                "Random identifier generated each time the producer starts.",
+                minLength=1,
+            ),
+            "boot_counter": i(
+                "Hardware-backed count of producer starts (e.g. a TPM NV "
+                "counter); never decreases. Order events by "
+                "(boot_counter, sequence_num).",
+                minimum=0,
+            ),
+            "agent_id": s("Identifier of the producing agent instance."),
+            "device_attestation": {
+                "type": "object",
+                "description": "The device's attestation state when the event was captured.",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["tpm", "software"],
+                        "description": (
+                            "'tpm': boot state attested by a TPM quote; "
+                            "'software': no hardware root of trust."
+                        ),
+                    },
+                    "quote_id": s("Receiver-issued identifier of the latest TPM quote."),
+                    "quote_status": s("Receiver's verdict on that quote, e.g. 'verified'."),
+                    "warning": s(),
+                    "error": s("Why the latest attestation refresh failed, if it did."),
+                },
+                "required": ["mode"],
+                "additionalProperties": True,
+            },
+            "batch": {
+                "type": "object",
+                "description": (
+                    "Merkle batch signature: the event is a leaf of a signed "
+                    "batch statement (spec/provenance.md#batch-signatures)."
+                ),
+                "properties": {
+                    "statement": {
+                        "type": "object",
+                        "properties": {
+                            "type": s(
+                                "Statement format; this version defines "
+                                "'udm.merkle-batch.v1'.",
+                                minLength=1,
+                            ),
+                            "batch_id": s(minLength=1),
+                            "root": s("Merkle root, lowercase hex.", pattern=HEX_SHA256),
+                            "leaf_count": i(minimum=1),
+                            "first_sequence": i(minimum=1),
+                            "last_sequence": i(minimum=1),
+                            "boot_epoch": s(),
+                            "key_id": s(),
+                            "signed_at": dt(),
+                        },
+                        "required": ["type", "root", "leaf_count"],
+                        "additionalProperties": True,
+                    },
+                    "signature": s(
+                        "Signature over the canonical JSON of `statement`, lowercase hex.",
+                        pattern=HEX,
+                    ),
+                    "leaf_index": i("Zero-based position of this event.", minimum=0),
+                    "proof": arr(
+                        s(pattern=HEX_SHA256),
+                        "Audit path from this leaf to the root (RFC 9162), leaf first.",
+                    ),
+                },
+                "required": ["statement", "signature", "leaf_index", "proof"],
+                "additionalProperties": True,
+            },
         },
+        "additionalProperties": True,
+    }
+
+
+def heartbeat_schema_fragment() -> dict[str, Any]:
+    """Liveness payload of `system_heartbeat` events."""
+    return {
+        "type": "object",
+        "description": (
+            "Liveness of the producer, sent in `system_heartbeat` events. A "
+            "receiver treats a source as overdue after missing heartbeats; "
+            "see spec/provenance.md#heartbeats."
+        ),
+        "properties": {
+            "interval_sec": i("Seconds between heartbeats.", minimum=1),
+            "agent_id": s("Identifier of the producing agent instance."),
+            "agent_version": s("Version of the producing agent."),
+        },
+        "required": ["interval_sec"],
         "additionalProperties": True,
     }
 
@@ -716,6 +840,7 @@ def event_schema() -> dict[str, Any]:
         "properties": {
             **domain_refs,
             "provenance": provenance_schema_fragment(),
+            "heartbeat": heartbeat_schema_fragment(),
             "extensions": {
                 "type": "object",
                 "description": (

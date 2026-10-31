@@ -1,0 +1,5 @@
+purpose: "Attestation mode is 'tpm' or 'software'."
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: provenance.device_attestation.mode
+expected_failure_keyword: enum
