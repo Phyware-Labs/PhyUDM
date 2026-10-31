@@ -42,6 +42,7 @@
         "emergency_stop",
         "system_startup",
         "system_shutdown",
+        "system_heartbeat",
         "error",
         "custom"
       ]

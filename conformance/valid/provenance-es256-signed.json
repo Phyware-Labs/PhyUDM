@@ -1,0 +1,24 @@
+{
+  "udm_version": "0.0.3",
+  "event_id": "01940000-0000-7000-8000-000000000410",
+  "event_type": "telemetry_periodic",
+  "source_id": "amr-001",
+  "source_type": "amr",
+  "captured_at": "2026-06-07T19:00:00Z",
+  "provenance": {
+    "signer": "tpm",
+    "algorithm": "es256",
+    "key_id": "5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c5f1c",
+    "signed_at": "2026-06-07T19:00:00.250000+00:00",
+    "sequence_num": 42,
+    "boot_epoch": "0123456789abcdef0123456789abcdef",
+    "boot_counter": 7,
+    "agent_id": "agent-amr-001",
+    "device_attestation": {
+      "mode": "tpm",
+      "quote_id": "q-2026-06-07-001",
+      "quote_status": "verified"
+    },
+    "signature": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+  }
+}

@@ -275,6 +275,9 @@ def emit_valid_minimal() -> int:
         "safety_violation", "emergency_stop",
         "system_startup", "system_shutdown",
         "error", "custom",
+        # Added after the initial release; last so existing fixtures keep
+        # their event ids.
+        "system_heartbeat",
     ]
     for et in event_types:
         count += 1
@@ -493,6 +496,158 @@ def emit_valid_extensions() -> int:
             "purpose": purpose,
             "expected_result": "valid",
             "schema_path": EVENT_SCHEMA,
+        })
+    return len(cases)
+
+
+# Provenance and heartbeat (spec/provenance.md).
+ES256_PROVENANCE: dict[str, Any] = {
+    "signer": "tpm",
+    "algorithm": "es256",
+    "key_id": "5f1c" * 16,
+    "signed_at": "2026-06-07T19:00:00.250000+00:00",
+    "sequence_num": 42,
+    "boot_epoch": "0123456789abcdef0123456789abcdef",
+    "boot_counter": 7,
+    "agent_id": "agent-amr-001",
+    "device_attestation": {
+        "mode": "tpm",
+        "quote_id": "q-2026-06-07-001",
+        "quote_status": "verified",
+    },
+    "signature": "ab" * 64,
+}
+
+BATCH: dict[str, Any] = {
+    "statement": {
+        "type": "udm.merkle-batch.v1",
+        "batch_id": "b0000000000000000000000000000001",
+        "root": "31" * 32,
+        "leaf_count": 3,
+        "first_sequence": 41,
+        "last_sequence": 43,
+        "boot_epoch": "0123456789abcdef0123456789abcdef",
+        "key_id": "5f1c" * 16,
+        "signed_at": "2026-06-07T19:00:03.500000+00:00",
+    },
+    "signature": "cd" * 64,
+    "leaf_index": 1,
+    "proof": ["0a" * 32, "0b" * 32],
+}
+
+
+def emit_valid_provenance() -> int:
+    folder = CONFORMANCE_DIR / "valid"
+    batch_provenance = {
+        k: v for k, v in ES256_PROVENANCE.items() if k != "signature"
+    }
+    batch_provenance["sequence_num"] = 42
+    batch_provenance["batch"] = deepcopy(BATCH)
+    cases = [
+        ("provenance-es256-signed", {
+            **_bump_event_id(BASE_ENVELOPE, 410),
+            "provenance": deepcopy(ES256_PROVENANCE),
+        }, "Event signed with a hardware key (es256), with sequence, boot counter "
+           "and TPM attestation."),
+        ("provenance-hmac-development", {
+            **_bump_event_id(BASE_ENVELOPE, 411),
+            "provenance": {
+                "signer": "hmac",
+                "algorithm": "hmac-sha256",
+                "key_id": "dev-key-1",
+                "signed_at": "2026-06-07T19:00:00Z",
+                "sequence_num": 1,
+                "boot_epoch": "fedcba9876543210fedcba9876543210",
+                "device_attestation": {
+                    "mode": "software",
+                    "warning": "no hardware root of trust",
+                },
+                "signature": "3183f961" * 8,
+            },
+        }, "Development event signed with a shared secret, without a hardware root of trust."),
+        ("provenance-batch-signed", {
+            **_bump_event_id(BASE_ENVELOPE, 412),
+            "provenance": batch_provenance,
+        }, "Event covered by a Merkle batch signature instead of its own."),
+        ("heartbeat-event", {
+            **_bump_event_id(BASE_ENVELOPE, 413),
+            "event_type": "system_heartbeat",
+            "heartbeat": {
+                "interval_sec": 30,
+                "agent_id": "agent-amr-001",
+                "agent_version": "0.3.1",
+            },
+            "provenance": deepcopy(ES256_PROVENANCE),
+        }, "Signed liveness heartbeat."),
+    ]
+    for name, payload, purpose in cases:
+        _write_pair(folder, name, payload, {
+            "purpose": purpose,
+            "expected_result": "valid",
+            "schema_path": EVENT_SCHEMA,
+        })
+    return len(cases)
+
+
+def emit_invalid_provenance() -> int:
+    folder = CONFORMANCE_DIR / "invalid"
+    cases: list[tuple[str, dict[str, Any], str, str, str]] = []
+
+    def with_provenance(n: int, **changes: Any) -> dict[str, Any]:
+        out = _bump_event_id(BASE_ENVELOPE, n)
+        out["provenance"] = deepcopy(ES256_PROVENANCE)
+        out["provenance"].update(changes)
+        return out
+
+    cases.append(("provenance-signature-not-hex",
+                  with_provenance(600, signature="ed25519:abc"),
+                  "Signatures are lowercase hex.",
+                  "provenance.signature", "pattern"))
+    cases.append(("provenance-sequence-num-zero",
+                  with_provenance(601, sequence_num=0),
+                  "Provenance sequence numbers start at 1.",
+                  "provenance.sequence_num", "minimum"))
+    cases.append(("provenance-boot-counter-negative",
+                  with_provenance(602, boot_counter=-1),
+                  "Boot counters never go below 0.",
+                  "provenance.boot_counter", "minimum"))
+    cases.append(("provenance-attestation-unknown-mode",
+                  with_provenance(603, device_attestation={"mode": "trusted"}),
+                  "Attestation mode is 'tpm' or 'software'.",
+                  "provenance.device_attestation.mode", "enum"))
+
+    batch = deepcopy(BATCH)
+    del batch["proof"]
+    cases.append(("provenance-batch-missing-proof",
+                  with_provenance(604, batch=batch),
+                  "A batch signature carries the leaf's audit path.",
+                  "provenance.batch.proof", "required"))
+    batch = deepcopy(BATCH)
+    batch["statement"]["root"] = "not-a-hash"
+    cases.append(("provenance-batch-bad-root",
+                  with_provenance(605, batch=batch),
+                  "A batch root is a lowercase hex SHA-256.",
+                  "provenance.batch.statement.root", "pattern"))
+
+    for n, heartbeat, purpose, target, keyword in [
+        (606, {"interval_sec": 0}, "Heartbeat intervals are at least 1 second.",
+         "heartbeat.interval_sec", "minimum"),
+        (607, {"agent_id": "agent-amr-001"}, "A heartbeat states its interval.",
+         "heartbeat.interval_sec", "required"),
+    ]:
+        payload = _bump_event_id(BASE_ENVELOPE, n)
+        payload["event_type"] = "system_heartbeat"
+        payload["heartbeat"] = heartbeat
+        name = "heartbeat-interval-zero" if n == 606 else "heartbeat-missing-interval"
+        cases.append((name, payload, purpose, target, keyword))
+
+    for name, payload, purpose, target, keyword in cases:
+        _write_pair(folder, name, payload, {
+            "purpose": purpose,
+            "expected_result": "invalid",
+            "schema_path": EVENT_SCHEMA,
+            "target_field_path": target,
+            "expected_failure_keyword": keyword,
         })
     return len(cases)
 
@@ -891,8 +1046,10 @@ def main() -> None:
         "valid_per_domain": emit_valid_per_domain(),
         "valid_cross_cutting": emit_valid_cross_cutting(),
         "valid_extensions": emit_valid_extensions(),
+        "valid_provenance": emit_valid_provenance(),
         "invalid_envelope": emit_invalid_envelope(),
         "invalid_domain": emit_invalid_domain(),
+        "invalid_provenance": emit_invalid_provenance(),
         "edge": emit_edge(),
         "legacy": emit_legacy(),
     }

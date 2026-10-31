@@ -1,0 +1,5 @@
+purpose: Provenance sequence numbers start at 1.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: provenance.sequence_num
+expected_failure_keyword: minimum

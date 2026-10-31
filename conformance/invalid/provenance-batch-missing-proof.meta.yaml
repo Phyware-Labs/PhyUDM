@@ -1,0 +1,5 @@
+purpose: "A batch signature carries the leaf's audit path."
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: provenance.batch.proof
+expected_failure_keyword: required

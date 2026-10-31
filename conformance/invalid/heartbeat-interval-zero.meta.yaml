@@ -1,0 +1,5 @@
+purpose: Heartbeat intervals are at least 1 second.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: heartbeat.interval_sec
+expected_failure_keyword: minimum

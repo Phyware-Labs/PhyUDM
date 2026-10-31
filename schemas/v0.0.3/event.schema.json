@@ -81,32 +81,191 @@
     },
     "provenance": {
       "type": "object",
-      "description": "Event-level integrity / provenance metadata.",
+      "description": "Producer-side integrity metadata: who signed the event, with which key and algorithm, its place in the producer's sequence, and the device's attestation state. Every field except `signature` is covered by the signature; see spec/provenance.md.",
       "properties": {
-        "signature": {
+        "signer": {
           "type": "string",
-          "description": "HMAC-SHA256 or similar signature value."
-        },
-        "key_id": {
-          "type": "string",
-          "description": "Identifier of the signing key."
+          "description": "Class of signer, e.g. 'hmac' (shared secret, development) or 'tpm' (non-exportable hardware key)."
         },
         "algorithm": {
           "type": "string",
-          "description": "Signature algorithm (e.g. 'hmac-sha256')."
+          "description": "Signature algorithm: 'es256' (ECDSA P-256 with SHA-256) or 'hmac-sha256' (development only). Other values are reserved."
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Identifier of the signing key. For 'es256': lowercase hex SHA-256 of the key's DER SubjectPublicKeyInfo."
+        },
+        "signature": {
+          "type": "string",
+          "description": "Signature over the signing payload, lowercase hex. For 'es256': the 64-byte r || s (as in JWS). Absent when the event is covered by `batch` instead.",
+          "pattern": "^[0-9a-f]+$"
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the producer signed the event."
         },
         "signed_fields": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "Fields included in the signature."
+          "description": "Deprecated: signatures cover the whole event (spec/provenance.md)."
         },
-        "signed_at": {
+        "sequence_num": {
+          "type": "integer",
+          "description": "Per-source sequence number: starts at 1 and never decreases while `boot_counter` is unchanged.",
+          "minimum": 1
+        },
+        "boot_epoch": {
           "type": "string",
-          "format": "date-time"
+          "description": "Random identifier generated each time the producer starts.",
+          "minLength": 1
+        },
+        "boot_counter": {
+          "type": "integer",
+          "description": "Hardware-backed count of producer starts (e.g. a TPM NV counter); never decreases. Order events by (boot_counter, sequence_num).",
+          "minimum": 0
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "Identifier of the producing agent instance."
+        },
+        "device_attestation": {
+          "type": "object",
+          "description": "The device's attestation state when the event was captured.",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "tpm",
+                "software"
+              ],
+              "description": "'tpm': boot state attested by a TPM quote; 'software': no hardware root of trust."
+            },
+            "quote_id": {
+              "type": "string",
+              "description": "Receiver-issued identifier of the latest TPM quote."
+            },
+            "quote_status": {
+              "type": "string",
+              "description": "Receiver's verdict on that quote, e.g. 'verified'."
+            },
+            "warning": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string",
+              "description": "Why the latest attestation refresh failed, if it did."
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "additionalProperties": true
+        },
+        "batch": {
+          "type": "object",
+          "description": "Merkle batch signature: the event is a leaf of a signed batch statement (spec/provenance.md#batch-signatures).",
+          "properties": {
+            "statement": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Statement format; this version defines 'udm.merkle-batch.v1'.",
+                  "minLength": 1
+                },
+                "batch_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "root": {
+                  "type": "string",
+                  "description": "Merkle root, lowercase hex.",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "leaf_count": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "first_sequence": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "last_sequence": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "boot_epoch": {
+                  "type": "string"
+                },
+                "key_id": {
+                  "type": "string"
+                },
+                "signed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "type",
+                "root",
+                "leaf_count"
+              ],
+              "additionalProperties": true
+            },
+            "signature": {
+              "type": "string",
+              "description": "Signature over the canonical JSON of `statement`, lowercase hex.",
+              "pattern": "^[0-9a-f]+$"
+            },
+            "leaf_index": {
+              "type": "integer",
+              "description": "Zero-based position of this event.",
+              "minimum": 0
+            },
+            "proof": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "description": "Audit path from this leaf to the root (RFC 9162), leaf first."
+            }
+          },
+          "required": [
+            "statement",
+            "signature",
+            "leaf_index",
+            "proof"
+          ],
+          "additionalProperties": true
         }
       },
+      "additionalProperties": true
+    },
+    "heartbeat": {
+      "type": "object",
+      "description": "Liveness of the producer, sent in `system_heartbeat` events. A receiver treats a source as overdue after missing heartbeats; see spec/provenance.md#heartbeats.",
+      "properties": {
+        "interval_sec": {
+          "type": "integer",
+          "description": "Seconds between heartbeats.",
+          "minimum": 1
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "Identifier of the producing agent instance."
+        },
+        "agent_version": {
+          "type": "string",
+          "description": "Version of the producing agent."
+        }
+      },
+      "required": [
+        "interval_sec"
+      ],
       "additionalProperties": true
     },
     "extensions": {

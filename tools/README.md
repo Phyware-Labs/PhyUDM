@@ -6,6 +6,7 @@ Maintenance scripts for the canonical schemas and conformance suite.
 |-------------------------|---------------------------------------------------------------------------------|
 | `build_schemas.py`      | Regenerate `schemas/v<ver>/*.schema.json` from the in-script Rust-derived model. |
 | `build_conformance.py`  | Regenerate `conformance/{valid,invalid,edge,legacy}` fixtures + `*.meta.yaml`.   |
+| `build_vectors.py`      | Regenerate the signing test vectors in `conformance/vectors/` (reference implementation of `spec/provenance.md`). |
 | `validate.py`           | Reference validator (Draft 2020-12). Runs single files or the full suite.       |
 | `changelog_check.py`    | Enforce `CHANGELOG.md` updates when `schemas/` or `spec/` change.               |
 
