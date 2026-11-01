@@ -17,7 +17,8 @@ once it reaches `v0.1.0`.
   schema version, **`schemas/v0.0.4/`**. `schemas/v0.0.3/` is restored to
   exactly what was released, and published versions are never edited in
   place. The conformance suite, `make validate` and the `udm` CLI default
-  to 0.0.4; `udm validate --schema-version 0.0.3` still works.
+  to 0.0.4; `udm validate --schema-version 0.0.3` still works. The `udm-mcp`
+  server embeds 0.0.4.
 - The combined `spec/udm-spec.md` links to its own heartbeat section and to
   the signing vectors by URL, so the links work wherever the combined spec
   is rendered.
