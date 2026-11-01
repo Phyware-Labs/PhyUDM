@@ -58,7 +58,7 @@ A conformant validator MUST:
 
 ```bash
 make install                      # installs jsonschema + referencing
-make validate                     # runs the suite against v0.0.3 schemas
+make validate                     # runs the suite against v0.0.4 schemas
 ```
 
 ### Wiring your own validator
@@ -73,11 +73,11 @@ const fs = require("fs"), path = require("path");
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
-for (const f of walk("schemas/v0.0.3")) {
+for (const f of walk("schemas/v0.0.4")) {
   ajv.addSchema(JSON.parse(fs.readFileSync(f, "utf8")));
 }
 const validateEvent = ajv.getSchema(
-  "https://schemas.phyudm.org/v0.0.3/event.schema.json",
+  "https://schemas.phyudm.org/v0.0.4/event.schema.json",
 );
 ```
 
@@ -87,8 +87,8 @@ Example (Go, [santhosh-tekuri/jsonschema](https://github.com/santhosh-tekuri/jso
 import "github.com/santhosh-tekuri/jsonschema/v5"
 
 c := jsonschema.NewCompiler()
-// Load every schema under schemas/v0.0.3 ahead of time, then:
-sch, _ := c.Compile("schemas/v0.0.3/event.schema.json")
+// Load every schema under schemas/v0.0.4 ahead of time, then:
+sch, _ := c.Compile("schemas/v0.0.4/event.schema.json")
 err := sch.Validate(payload)
 ```
 

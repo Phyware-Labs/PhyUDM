@@ -9,6 +9,19 @@ once it reaches `v0.1.0`.
 
 ## [Unreleased]
 
+## [0.0.4] — 2026-11-01
+
+### Changed — schema version
+
+- The provenance and heartbeat additions below are published as a new
+  schema version, **`schemas/v0.0.4/`**. `schemas/v0.0.3/` is restored to
+  exactly what was released, and published versions are never edited in
+  place. The conformance suite, `make validate` and the `udm` CLI default
+  to 0.0.4; `udm validate --schema-version 0.0.3` still works.
+- The combined `spec/udm-spec.md` links to its own heartbeat section and to
+  the signing vectors by URL, so the links work wherever the combined spec
+  is rendered.
+
 ### Added — signed provenance, batch signatures and heartbeats
 
 - **`spec/provenance.md` rewritten** to define producer-side provenance:

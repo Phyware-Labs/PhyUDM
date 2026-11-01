@@ -6,7 +6,7 @@
 PYTHON ?= python3
 PIP ?= $(PYTHON) -m pip
 CARGO ?= cargo
-SCHEMA_VERSION ?= 0.0.3
+SCHEMA_VERSION ?= 0.0.4
 
 CHANGELOG_BASE ?= origin/main
 

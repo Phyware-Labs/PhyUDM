@@ -63,7 +63,7 @@ Supported schemes at v0.0.3:
 ### Validate a payload
 
 ```bash
-udm validate path/to/event.json --schema-version 0.0.3
+udm validate path/to/event.json --schema-version 0.0.4   # default; 0.0.3 also supported
 ```
 
 JSON-Lines output by default; `--output pretty` for human consumption.
@@ -87,7 +87,7 @@ udm explain safety/safety_state
 ```json
 {
   "path": "safety/safety_state",
-  "schema_version": "0.0.3",
+  "schema_version": "0.0.4",
   "type": "string",
   "enum": ["normal", "warning", "protective_stop", "emergency_stop", "safety_interlock", "reduced_speed"]
 }

@@ -6,6 +6,19 @@ This page mirrors the `## Changelog` section of the monolithic
 spec text), see the root [`CHANGELOG.md`](../CHANGELOG.md).
 
 
+### Version 0.0.4 (November 1, 2026)
+
+**Signed provenance, batch signatures and heartbeats:**
+- **Provenance:** defines the producer-side `provenance` block and its
+  signing payload, the `es256` and `hmac-sha256` algorithms, ordering and
+  replay (`sequence_num`, `boot_epoch`, `boot_counter`), device
+  attestation, and Merkle batch signatures (`udm.merkle-batch.v1`). See
+  [Provenance Metadata](./provenance.md).
+- **Heartbeats:** adds the `system.heartbeat` event type and the
+  `heartbeat` block (`interval_sec`, `agent_id`, `agent_version`).
+- **Compatibility:** all new fields are optional; provenance signatures
+  must be lowercase hex.
+
 ### Version 0.0.3 (January 12, 2026)
 
 **Collaborative Robot Safety:**

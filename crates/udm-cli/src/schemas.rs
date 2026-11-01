@@ -12,28 +12,33 @@ use serde_json::Value;
 use crate::{CliError, CliResult};
 
 /// Default schema version when none is specified on the command line.
-pub const DEFAULT_VERSION: &str = "0.0.3";
+pub const DEFAULT_VERSION: &str = "0.0.4";
 
 /// All schema versions the CLI knows about.
-pub const KNOWN_VERSIONS: &[&str] = &["0.0.3"];
+pub const KNOWN_VERSIONS: &[&str] = &["0.0.3", "0.0.4"];
 
 /// Comma-separated list of [`KNOWN_VERSIONS`] (used in error messages).
 pub fn supported_versions_csv() -> String {
     KNOWN_VERSIONS.join(", ")
 }
 
-// ---- v0.0.3 embedded artifacts -----------------------------------------
-
-const V003_EVENT: &str = include_str!("../../../schemas/v0.0.3/event.schema.json");
-const V003_ENVELOPE: &str = include_str!("../../../schemas/v0.0.3/envelope.schema.json");
-const V003_OBJECT_REF: &str = include_str!("../../../schemas/v0.0.3/object_ref.schema.json");
+/// Every artifact of one schema version, as embedded text.
+struct Embedded {
+    version: &'static str,
+    event: &'static str,
+    envelope: &'static str,
+    object_ref: &'static str,
+    domains: &'static [(&'static str, &'static str)],
+}
 
 macro_rules! embed_domain {
-    ($num:expr, $slug:literal) => {
+    ($dir:literal, $num:expr, $slug:literal) => {
         (
             $slug,
             include_str!(concat!(
-                "../../../schemas/v0.0.3/domains/",
+                "../../../schemas/",
+                $dir,
+                "/domains/",
                 stringify!($num),
                 "-",
                 $slug,
@@ -43,32 +48,50 @@ macro_rules! embed_domain {
     };
 }
 
-// NB: stringify!(02) → "02" so the macro produces the right filename.
-const V003_DOMAINS: &[(&str, &str)] = &[
-    embed_domain!(01, "identity"),
-    embed_domain!(02, "location"),
-    embed_domain!(03, "motion"),
-    embed_domain!(04, "power"),
-    embed_domain!(05, "operational"),
-    embed_domain!(06, "navigation"),
-    embed_domain!(07, "perception"),
-    embed_domain!(08, "safety"),
-    embed_domain!(09, "actuators"),
-    embed_domain!(10, "communication"),
-    embed_domain!(11, "compute"),
-    embed_domain!(12, "ai"),
-    embed_domain!(13, "maintenance"),
-    embed_domain!(14, "context"),
-    embed_domain!(15, "payload"),
-    embed_domain!(16, "manipulation"),
-    embed_domain!(17, "hri"),
-    embed_domain!(18, "coordination"),
-    embed_domain!(19, "simulation"),
-    embed_domain!(20, "thermal"),
-    embed_domain!(21, "audio"),
-    embed_domain!(22, "environment-interaction"),
-    embed_domain!(23, "compliance"),
-];
+/// Embed every artifact under `schemas/<dir>/`.
+macro_rules! embed_version {
+    ($version:literal, $dir:literal) => {
+        Embedded {
+            version: $version,
+            event: include_str!(concat!("../../../schemas/", $dir, "/event.schema.json")),
+            envelope: include_str!(concat!("../../../schemas/", $dir, "/envelope.schema.json")),
+            object_ref: include_str!(concat!(
+                "../../../schemas/",
+                $dir,
+                "/object_ref.schema.json"
+            )),
+            // NB: stringify!(02) → "02" so the macro produces the right filename.
+            domains: &[
+                embed_domain!($dir, 01, "identity"),
+                embed_domain!($dir, 02, "location"),
+                embed_domain!($dir, 03, "motion"),
+                embed_domain!($dir, 04, "power"),
+                embed_domain!($dir, 05, "operational"),
+                embed_domain!($dir, 06, "navigation"),
+                embed_domain!($dir, 07, "perception"),
+                embed_domain!($dir, 08, "safety"),
+                embed_domain!($dir, 09, "actuators"),
+                embed_domain!($dir, 10, "communication"),
+                embed_domain!($dir, 11, "compute"),
+                embed_domain!($dir, 12, "ai"),
+                embed_domain!($dir, 13, "maintenance"),
+                embed_domain!($dir, 14, "context"),
+                embed_domain!($dir, 15, "payload"),
+                embed_domain!($dir, 16, "manipulation"),
+                embed_domain!($dir, 17, "hri"),
+                embed_domain!($dir, 18, "coordination"),
+                embed_domain!($dir, 19, "simulation"),
+                embed_domain!($dir, 20, "thermal"),
+                embed_domain!($dir, 21, "audio"),
+                embed_domain!($dir, 22, "environment-interaction"),
+                embed_domain!($dir, 23, "compliance"),
+            ],
+        }
+    };
+}
+
+const V003: Embedded = embed_version!("0.0.3", "v0.0.3");
+const V004: Embedded = embed_version!("0.0.4", "v0.0.4");
 
 /// Bundle of every artifact for one schema version, materialised as
 /// `serde_json::Value` for further processing.
@@ -130,14 +153,15 @@ impl SchemaBundle {
 /// Materialise the schema bundle for `version`.
 pub fn load_version(version: &str) -> CliResult<SchemaBundle> {
     match version {
-        "0.0.3" => Ok(load_v003()),
+        "0.0.3" => Ok(load(&V003)),
+        "0.0.4" => Ok(load(&V004)),
         other => Err(CliError::UnknownSchemaVersion(other.to_owned())),
     }
 }
 
-fn load_v003() -> SchemaBundle {
+fn load(embedded: &Embedded) -> SchemaBundle {
     let mut domains = BTreeMap::new();
-    for (slug, body) in V003_DOMAINS {
+    for (slug, body) in embedded.domains {
         // schema file slug → canonical key:
         //   "identity"                 -> "identity"
         //   "environment-interaction"  -> "environment_interaction"
@@ -147,12 +171,12 @@ fn load_v003() -> SchemaBundle {
         domains.insert(key, value);
     }
     SchemaBundle {
-        version: "0.0.3".to_owned(),
-        event: serde_json::from_str(V003_EVENT)
+        version: embedded.version.to_owned(),
+        event: serde_json::from_str(embedded.event)
             .unwrap_or_else(|err| panic!("invalid embedded event schema: {err}")),
-        envelope: serde_json::from_str(V003_ENVELOPE)
+        envelope: serde_json::from_str(embedded.envelope)
             .unwrap_or_else(|err| panic!("invalid embedded envelope schema: {err}")),
-        object_ref: serde_json::from_str(V003_OBJECT_REF)
+        object_ref: serde_json::from_str(embedded.object_ref)
             .unwrap_or_else(|err| panic!("invalid embedded object_ref schema: {err}")),
         domains,
     }
@@ -171,6 +195,20 @@ mod tests {
         assert!(bundle.artifact("safety").is_some());
         // Canonical and dashed lookup both work.
         assert!(bundle.artifact("environment-interaction").is_some());
+    }
+
+    #[test]
+    fn v004_adds_provenance_and_heartbeat() {
+        let bundle = load_version("0.0.4").unwrap();
+        assert_eq!(bundle.version, "0.0.4");
+        assert_eq!(bundle.domains.len(), 23);
+        let props = &bundle.event["properties"];
+        assert!(props["heartbeat"].is_object());
+        assert!(props["provenance"]["properties"]["batch"].is_object());
+        // v0.0.3 stays as published.
+        let v003 = load_version("0.0.3").unwrap();
+        assert!(v003.event["properties"].get("heartbeat").is_none());
+        assert_eq!(DEFAULT_VERSION, "0.0.4");
     }
 
     #[test]
