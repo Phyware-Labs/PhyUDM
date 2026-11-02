@@ -8,18 +8,18 @@ use std::collections::BTreeMap;
 
 use serde_json::Value;
 
-pub const DEFAULT_VERSION: &str = "0.0.4";
+pub const DEFAULT_VERSION: &str = "0.0.5";
 
-const V004_EVENT: &str = include_str!("../../../../schemas/v0.0.4/event.schema.json");
-const V004_ENVELOPE: &str = include_str!("../../../../schemas/v0.0.4/envelope.schema.json");
-const V004_OBJECT_REF: &str = include_str!("../../../../schemas/v0.0.4/object_ref.schema.json");
+const V005_EVENT: &str = include_str!("../../../../schemas/v0.0.5/event.schema.json");
+const V005_ENVELOPE: &str = include_str!("../../../../schemas/v0.0.5/envelope.schema.json");
+const V005_OBJECT_REF: &str = include_str!("../../../../schemas/v0.0.5/object_ref.schema.json");
 
 macro_rules! embed_domain {
     ($num:expr, $slug:literal) => {
         (
             $slug,
             include_str!(concat!(
-                "../../../../schemas/v0.0.4/domains/",
+                "../../../../schemas/v0.0.5/domains/",
                 stringify!($num),
                 "-",
                 $slug,
@@ -29,7 +29,7 @@ macro_rules! embed_domain {
     };
 }
 
-const V004_DOMAINS: &[(&str, &str)] = &[
+const V005_DOMAINS: &[(&str, &str)] = &[
     embed_domain!(01, "identity"),
     embed_domain!(02, "location"),
     embed_domain!(03, "motion"),
@@ -71,7 +71,7 @@ pub fn load(version: &str) -> Result<Bundle, String> {
         ));
     }
     let mut domains = BTreeMap::new();
-    for (slug, body) in V004_DOMAINS {
+    for (slug, body) in V005_DOMAINS {
         let key = (*slug).replace('-', "_");
         let value: Value = serde_json::from_str(body)
             .map_err(|err| format!("invalid embedded domain {slug}: {err}"))?;
@@ -79,11 +79,11 @@ pub fn load(version: &str) -> Result<Bundle, String> {
     }
     Ok(Bundle {
         version: DEFAULT_VERSION.to_owned(),
-        event: serde_json::from_str(V004_EVENT)
+        event: serde_json::from_str(V005_EVENT)
             .map_err(|err| format!("invalid embedded event schema: {err}"))?,
-        envelope: serde_json::from_str(V004_ENVELOPE)
+        envelope: serde_json::from_str(V005_ENVELOPE)
             .map_err(|err| format!("invalid embedded envelope schema: {err}"))?,
-        object_ref: serde_json::from_str(V004_OBJECT_REF)
+        object_ref: serde_json::from_str(V005_OBJECT_REF)
             .map_err(|err| format!("invalid embedded object_ref schema: {err}"))?,
         domains,
     })

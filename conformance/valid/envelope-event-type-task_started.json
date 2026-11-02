@@ -1,5 +1,5 @@
 {
-  "udm_version": "0.0.4",
+  "udm_version": "0.0.5",
   "event_id": "01940000-0000-7000-8000-000000000006",
   "event_type": "task_started",
   "source_id": "amr-001",

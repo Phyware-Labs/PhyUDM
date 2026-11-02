@@ -1,0 +1,5 @@
+purpose: Change kinds come from a fixed list.
+expected_result: invalid
+schema_path: event.schema.json
+target_field_path: ros_graph.changes.kind
+expected_failure_keyword: enum

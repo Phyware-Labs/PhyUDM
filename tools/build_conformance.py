@@ -24,7 +24,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFORMANCE_DIR = REPO_ROOT / "conformance"
-SCHEMA_VERSION = "0.0.4"
+SCHEMA_VERSION = "0.0.5"
 
 EVENT_SCHEMA = "event.schema.json"
 DOMAIN_SCHEMA_TEMPLATE = "domains/{slug}.schema.json"
@@ -278,6 +278,8 @@ def emit_valid_minimal() -> int:
         # Added after the initial release; last so existing fixtures keep
         # their event ids.
         "system_heartbeat",
+        "security_ros_graph_baseline", "security_ros_graph_changed",
+        "security_ros_graph_unobservable",
     ]
     for et in event_types:
         count += 1
@@ -585,6 +587,121 @@ def emit_valid_provenance() -> int:
             "purpose": purpose,
             "expected_result": "valid",
             "schema_path": EVENT_SCHEMA,
+        })
+    return len(cases)
+
+
+# ROS 2 graph events (spec/ros-graph.md).
+ODOM_PUBLISHER: dict[str, Any] = {
+    "node": "/odom_relay",
+    "gid": "01" * 16,
+    "topic_type": "nav_msgs/msg/Odometry",
+    "qos": {"reliability": "reliable", "durability": "volatile", "depth": 10},
+}
+GOVERNOR: dict[str, Any] = {
+    "node": "/speed_governor",
+    "gid": "02" * 16,
+    "topic_type": "nav_msgs/msg/Odometry",
+    "address": "192.168.4.58",
+}
+BASELINE_SHA = "9c" * 32
+
+
+def emit_valid_ros_graph() -> int:
+    folder = CONFORMANCE_DIR / "valid"
+    cases = [
+        ("ros-graph-baseline", {
+            **_bump_event_id(BASE_ENVELOPE, 420),
+            "event_type": "security_ros_graph_baseline",
+            "ros_graph": {
+                "severity": "info",
+                "baseline_sha256": BASELINE_SHA,
+                "policy_id": "amr-default-1",
+                "manifest": {
+                    "topics": {
+                        "/odom": {
+                            "type": "nav_msgs/msg/Odometry",
+                            "publishers": [ODOM_PUBLISHER],
+                            "subscribers": [],
+                        },
+                    },
+                },
+                "observed_at": "2026-06-07T19:00:00Z",
+            },
+            "provenance": deepcopy(ES256_PROVENANCE),
+        }, "Signed baseline of the watched ROS 2 graph."),
+        ("ros-graph-publisher-replaced", {
+            **_bump_event_id(BASE_ENVELOPE, 421),
+            "event_type": "security_ros_graph_changed",
+            "ros_graph": {
+                "severity": "high",
+                "baseline_sha256": BASELINE_SHA,
+                "changes": [
+                    {"kind": "node_added", "severity": "medium",
+                     "node": "/speed_governor"},
+                    {"kind": "publisher_replaced", "severity": "high",
+                     "topic": "/odom", "before": ODOM_PUBLISHER, "after": GOVERNOR},
+                    {"kind": "subscriber_added", "severity": "high",
+                     "topic": "/base/odom_raw", "after": GOVERNOR},
+                ],
+                "observed_at": "2026-06-07T19:21:57Z",
+            },
+            "provenance": deepcopy(ES256_PROVENANCE),
+        }, "A new node takes over a watched topic between a driver and its republisher."),
+        ("ros-graph-unobservable", {
+            **_bump_event_id(BASE_ENVELOPE, 422),
+            "event_type": "security_ros_graph_unobservable",
+            "ros_graph": {
+                "severity": "high",
+                "baseline_sha256": BASELINE_SHA,
+                "reason": "no participants discovered for 30 s",
+                "observed_at": "2026-06-07T19:30:00Z",
+            },
+        }, "The observer can no longer see the graph."),
+    ]
+    for name, payload, purpose in cases:
+        _write_pair(folder, name, payload, {
+            "purpose": purpose,
+            "expected_result": "valid",
+            "schema_path": EVENT_SCHEMA,
+        })
+    return len(cases)
+
+
+def emit_invalid_ros_graph() -> int:
+    folder = CONFORMANCE_DIR / "invalid"
+    cases: list[tuple[str, dict[str, Any], str, str, str]] = []
+
+    def changed(n: int, ros_graph: dict[str, Any]) -> dict[str, Any]:
+        out = _bump_event_id(BASE_ENVELOPE, n)
+        out["event_type"] = "security_ros_graph_changed"
+        out["ros_graph"] = ros_graph
+        return out
+
+    cases.append(("ros-graph-unknown-change-kind",
+                  changed(620, {"changes": [{"kind": "node_renamed", "severity": "low"}]}),
+                  "Change kinds come from a fixed list.",
+                  "ros_graph.changes.kind", "enum"))
+    cases.append(("ros-graph-change-missing-severity",
+                  changed(621, {"changes": [{"kind": "node_added"}]}),
+                  "Every change states its severity.",
+                  "ros_graph.changes.severity", "required"))
+    cases.append(("ros-graph-bad-severity",
+                  changed(622, {"severity": "critical", "changes": []}),
+                  "Severity is info, low, medium or high.",
+                  "ros_graph.severity", "enum"))
+    cases.append(("ros-graph-endpoint-without-node",
+                  changed(623, {"changes": [{"kind": "publisher_added", "severity": "high",
+                                             "after": {"gid": "02" * 16}}]}),
+                  "An endpoint names its node.",
+                  "ros_graph.changes.after.node", "required"))
+    for name, payload, purpose, target, keyword in cases:
+        _write_pair(folder, name, payload, {
+            "purpose": purpose,
+            "expected_result": "invalid",
+            "schema_path": EVENT_SCHEMA,
+            "target_field_path": target,
+            "expected_failure_keyword": keyword,
         })
     return len(cases)
 
@@ -1047,9 +1164,11 @@ def main() -> None:
         "valid_cross_cutting": emit_valid_cross_cutting(),
         "valid_extensions": emit_valid_extensions(),
         "valid_provenance": emit_valid_provenance(),
+        "valid_ros_graph": emit_valid_ros_graph(),
         "invalid_envelope": emit_invalid_envelope(),
         "invalid_domain": emit_invalid_domain(),
         "invalid_provenance": emit_invalid_provenance(),
+        "invalid_ros_graph": emit_invalid_ros_graph(),
         "edge": emit_edge(),
         "legacy": emit_legacy(),
     }

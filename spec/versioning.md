@@ -42,7 +42,7 @@ Every UDM event MUST include `udm_version` as a top-level envelope field:
 
 ```json
 {
-  "udm_version": "0.0.4",
+  "udm_version": "0.0.5",
   "event_id": "01940000-0000-7000-8000-000000000001",
   "event_type": "telemetry_periodic",
   "source_id": "amr-001",
@@ -72,10 +72,10 @@ https://schemas.phyudm.org/v<MAJOR>.<MINOR>.<PATCH>/<path>.schema.json
 
 | Schema kind     | `$id`                                                                                    |
 |-----------------|------------------------------------------------------------------------------------------|
-| Envelope        | `https://schemas.phyudm.org/v0.0.4/envelope.schema.json`                                 |
-| Event           | `https://schemas.phyudm.org/v0.0.4/event.schema.json`                                    |
-| Object Ref      | `https://schemas.phyudm.org/v0.0.4/object_ref.schema.json`                               |
-| Domain          | `https://schemas.phyudm.org/v0.0.4/domains/<NN>-<slug>.schema.json`                      |
+| Envelope        | `https://schemas.phyudm.org/v0.0.5/envelope.schema.json`                                 |
+| Event           | `https://schemas.phyudm.org/v0.0.5/event.schema.json`                                    |
+| Object Ref      | `https://schemas.phyudm.org/v0.0.5/object_ref.schema.json`                               |
+| Domain          | `https://schemas.phyudm.org/v0.0.5/domains/<NN>-<slug>.schema.json`                      |
 
 Every schema uses
 [`$schema: "https://json-schema.org/draft/2020-12/schema"`](https://json-schema.org/specification.html).
@@ -95,19 +95,22 @@ implementation in `tools/validate.py` demonstrates both styles.
 
 ## 4. Compatibility Matrix
 
-| Producer ↓ / Consumer → | `0.0.3` | `0.0.4` | `0.1.x` (planned) | `0.2.x` (planned) | `1.0.x` (planned) |
-|-------------------------|---------|---------|-------------------|-------------------|-------------------|
-| `0.0.3`                 | ✅       | ✅‡      | ✅†               | ⚠️ partial        | ⚠️ partial        |
-| `0.0.4`                 | ⚠️ partial | ✅    | ✅†               | ⚠️ partial        | ⚠️ partial        |
-| `0.1.x`                 | ❌       | ❌       | ✅                | ✅†               | ⚠️ partial        |
-| `0.2.x`                 | ❌       | ❌       | ❌ (drop legacy)  | ✅                | ✅†               |
-| `1.0.x`                 | ❌       | ❌       | ❌                | ❌                | ✅                |
+| Producer ↓ / Consumer → | `0.0.3` | `0.0.4` | `0.0.5` | `0.1.x` (planned) | `0.2.x` (planned) | `1.0.x` (planned) |
+|-------------------------|---------|---------|---------|-------------------|-------------------|-------------------|
+| `0.0.3`                 | ✅       | ✅‡      | ✅‡      | ✅†               | ⚠️ partial        | ⚠️ partial        |
+| `0.0.4`                 | ⚠️ partial | ✅    | ✅       | ✅†               | ⚠️ partial        | ⚠️ partial        |
+| `0.0.5`                 | ⚠️ partial | ⚠️ partial | ✅ | ✅†               | ⚠️ partial        | ⚠️ partial        |
+| `0.1.x`                 | ❌       | ❌       | ❌       | ✅                | ✅†               | ⚠️ partial        |
+| `0.2.x`                 | ❌       | ❌       | ❌       | ❌ (drop legacy)  | ✅                | ✅†               |
+| `1.0.x`                 | ❌       | ❌       | ❌       | ❌                | ❌                | ✅                |
 
 Legend: ✅ = full compatibility; ✅† = backwards-compatible (consumer ≥
 producer); ⚠️ partial = consumer can validate envelope + a subset of
 domains; ❌ = incompatible (consumer rejects). ‡ = except `0.0.3` events
 whose `provenance.signature` is not lowercase hex. A `0.0.3` consumer
-rejects `system_heartbeat` events from a `0.0.4` producer.
+rejects `system_heartbeat` events from a `0.0.4` producer, and a `0.0.3` or
+`0.0.4` consumer rejects the `security_ros_graph_*` events of a `0.0.5`
+producer.
 
 The matrix is updated with every MINOR or MAJOR release.
 

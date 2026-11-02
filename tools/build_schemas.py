@@ -31,7 +31,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.0.4"
+VERSION = "0.0.5"
 SCHEMA_HOST = "https://schemas.phyudm.org"
 BASE_ID = f"{SCHEMA_HOST}/v{VERSION}"
 DRAFT = "https://json-schema.org/draft/2020-12/schema"
@@ -54,6 +54,8 @@ ENUMS: dict[str, list[str]] = {
         "goal_reached", "path_blocked", "rerouting",
         "safety_violation", "emergency_stop",
         "system_startup", "system_shutdown", "system_heartbeat",
+        "security_ros_graph_baseline", "security_ros_graph_changed",
+        "security_ros_graph_unobservable",
         "error", "custom",
     ],
     "SourceType": [
@@ -806,6 +808,77 @@ def provenance_schema_fragment() -> dict[str, Any]:
     }
 
 
+GRAPH_CHANGE_KINDS = [
+    "node_added", "node_removed",
+    "publisher_added", "publisher_removed", "publisher_replaced",
+    "publisher_restarted",
+    "subscriber_added", "subscriber_removed",
+    "participant_unknown",
+]
+SEVERITIES = ["info", "low", "medium", "high"]
+
+
+def ros_graph_endpoint() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "description": "A publisher or subscriber as seen through graph discovery.",
+        "properties": {
+            "node": s("Fully qualified node name, e.g. '/odom_relay'."),
+            "gid": s("Endpoint GID, lowercase hex.", pattern=HEX),
+            "topic_type": s("Message type, e.g. 'nav_msgs/msg/Odometry'."),
+            "qos": obj_open("QoS profile (reliability, durability, depth, ...)."),
+            "address": s("Network address of the participant, where known."),
+        },
+        "required": ["node"],
+        "additionalProperties": True,
+    }
+
+
+def ros_graph_schema_fragment() -> dict[str, Any]:
+    """Payload of the security_ros_graph_* events (spec/ros-graph.md)."""
+    change = {
+        "type": "object",
+        "properties": {
+            "kind": {"type": "string", "enum": GRAPH_CHANGE_KINDS},
+            "severity": {"type": "string", "enum": SEVERITIES},
+            "topic": s(),
+            "node": s(),
+            "before": ros_graph_endpoint(),
+            "after": ros_graph_endpoint(),
+            "detail": s(),
+        },
+        "required": ["kind", "severity"],
+        "additionalProperties": True,
+    }
+    return {
+        "type": "object",
+        "description": (
+            "Changes in a ROS 2 computation graph relative to a signed "
+            "baseline; see spec/ros-graph.md."
+        ),
+        "properties": {
+            "severity": {
+                "type": "string",
+                "enum": SEVERITIES,
+                "description": "The highest severity among `changes`.",
+            },
+            "baseline_sha256": s(
+                "SHA-256 of the canonical JSON of the baseline manifest.",
+                pattern=HEX_SHA256,
+            ),
+            "policy_id": s("Identifier of the graph policy in force."),
+            "changes": arr(change, "What changed since the baseline."),
+            "manifest": obj_open(
+                "The baseline itself (in security_ros_graph_baseline events): "
+                "watched topics with their publishers and subscribers."
+            ),
+            "reason": s("Why the graph cannot be observed (unobservable events)."),
+            "observed_at": dt("When the observer saw the graph in this state."),
+        },
+        "additionalProperties": True,
+    }
+
+
 def heartbeat_schema_fragment() -> dict[str, Any]:
     """Liveness payload of `system_heartbeat` events."""
     return {
@@ -843,6 +916,7 @@ def event_schema() -> dict[str, Any]:
             **domain_refs,
             "provenance": provenance_schema_fragment(),
             "heartbeat": heartbeat_schema_fragment(),
+            "ros_graph": ros_graph_schema_fragment(),
             "extensions": {
                 "type": "object",
                 "description": (

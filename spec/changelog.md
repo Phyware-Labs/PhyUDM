@@ -6,6 +6,14 @@ This page mirrors the `## Changelog` section of the monolithic
 spec text), see the root [`CHANGELOG.md`](../CHANGELOG.md).
 
 
+### Version 0.0.5 (November 2, 2026)
+
+**ROS 2 graph integrity events:**
+- **Event types:** `security.ros_graph_baseline`, `security.ros_graph_changed`
+  and `security.ros_graph_unobservable`, with a `ros_graph` block (severity,
+  baseline hash, changes with before/after endpoints, manifest, reason).
+  See [ROS 2 Graph Integrity Events](./ros-graph.md).
+
 ### Version 0.0.4 (November 1, 2026)
 
 **Signed provenance, batch signatures and heartbeats:**
