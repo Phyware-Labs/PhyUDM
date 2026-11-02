@@ -1,5 +1,5 @@
 {
-  "udm_version": "0.0.4",
+  "udm_version": "0.0.5",
   "event_id": "e",
   "event_type": "telemetry_periodic",
   "source_id": "s",

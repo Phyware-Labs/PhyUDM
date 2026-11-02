@@ -37,6 +37,7 @@
 | `system.startup` | System initialization |
 | `system.shutdown` | System shutdown |
 | `system.heartbeat` | Producer liveness heartbeat; see [Heartbeats](./provenance.md#heartbeats) |
+| `security.ros_graph_changed` | ROS 2 computation graph departed from its signed baseline; see [ROS 2 Graph Integrity Events](./ros-graph.md) |
 | `system.error` | System error occurred |
 | `interaction.gesture_detected` | Human gesture recognized |
 | `interaction.voice_command` | Voice command received |

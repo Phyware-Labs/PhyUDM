@@ -9,6 +9,23 @@ once it reaches `v0.1.0`.
 
 ## [Unreleased]
 
+## [0.0.5] — 2026-11-02
+
+### Added — ROS 2 graph integrity events
+
+- **`spec/ros-graph.md`** (also in `spec/udm-spec.md`): event types
+  `security_ros_graph_baseline`, `security_ros_graph_changed` and
+  `security_ros_graph_unobservable`, the `ros_graph` block (severity,
+  `baseline_sha256`, `policy_id`, `changes` with before/after endpoints,
+  `manifest`, `reason`, `observed_at`), the change kinds and recommended
+  severities, and the limitations of graph observation.
+- **Schema v0.0.5** (`schemas/v0.0.5/`): the three event types and the
+  optional `ros_graph` object. v0.0.3 and v0.0.4 are unchanged.
+- **Fixtures:** 3 valid and 4 invalid graph-event fixtures, plus a valid
+  envelope per new event type. The conformance suite, `make validate`, the
+  `udm` CLI default and `udm-mcp` move to 0.0.5; the CLI still embeds 0.0.3
+  and 0.0.4.
+
 ## [0.0.4] — 2026-11-01
 
 ### Changed — schema version

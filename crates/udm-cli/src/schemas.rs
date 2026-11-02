@@ -12,10 +12,10 @@ use serde_json::Value;
 use crate::{CliError, CliResult};
 
 /// Default schema version when none is specified on the command line.
-pub const DEFAULT_VERSION: &str = "0.0.4";
+pub const DEFAULT_VERSION: &str = "0.0.5";
 
 /// All schema versions the CLI knows about.
-pub const KNOWN_VERSIONS: &[&str] = &["0.0.3", "0.0.4"];
+pub const KNOWN_VERSIONS: &[&str] = &["0.0.3", "0.0.4", "0.0.5"];
 
 /// Comma-separated list of [`KNOWN_VERSIONS`] (used in error messages).
 pub fn supported_versions_csv() -> String {
@@ -92,6 +92,7 @@ macro_rules! embed_version {
 
 const V003: Embedded = embed_version!("0.0.3", "v0.0.3");
 const V004: Embedded = embed_version!("0.0.4", "v0.0.4");
+const V005: Embedded = embed_version!("0.0.5", "v0.0.5");
 
 /// Bundle of every artifact for one schema version, materialised as
 /// `serde_json::Value` for further processing.
@@ -155,6 +156,7 @@ pub fn load_version(version: &str) -> CliResult<SchemaBundle> {
     match version {
         "0.0.3" => Ok(load(&V003)),
         "0.0.4" => Ok(load(&V004)),
+        "0.0.5" => Ok(load(&V005)),
         other => Err(CliError::UnknownSchemaVersion(other.to_owned())),
     }
 }
@@ -208,7 +210,10 @@ mod tests {
         // v0.0.3 stays as published.
         let v003 = load_version("0.0.3").unwrap();
         assert!(v003.event["properties"].get("heartbeat").is_none());
-        assert_eq!(DEFAULT_VERSION, "0.0.4");
+        let v005 = load_version("0.0.5").unwrap();
+        assert!(v005.event["properties"]["ros_graph"].is_object());
+        assert!(bundle.event["properties"].get("ros_graph").is_none());
+        assert_eq!(DEFAULT_VERSION, "0.0.5");
     }
 
     #[test]
