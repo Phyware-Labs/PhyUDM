@@ -1,7 +1,7 @@
 # Unified Data Model (UDM)
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
-[![Spec Version](https://img.shields.io/badge/spec-v0.0.3-orange.svg)](./spec/udm-spec.md)
+[![Spec Version](https://img.shields.io/badge/spec-v0.0.4-orange.svg)](./spec/udm-spec.md)
 [![Status: Pre-launch](https://img.shields.io/badge/status-pre--launch-yellow.svg)](#status)
 
 > **UDM** is an open, vendor-neutral specification for representing
@@ -13,7 +13,7 @@
 
 - 📖 **Read the spec** → [`spec/index.md`](./spec/index.md)
 - 🧰 **Single-file copy for diffing** → [`spec/udm-spec.md`](./spec/udm-spec.md)
-- 📐 **JSON Schema artifacts** → [`schemas/v0.0.3/`](./schemas/v0.0.3/)
+- 📐 **JSON Schema artifacts** → [`schemas/v0.0.4/`](./schemas/v0.0.4/)
 - ✅ **Conformance suite** → [`conformance/`](./conformance/)
 - 🏷️ **Versioning contract** → [`spec/versioning.md`](./spec/versioning.md)
 - 📝 **Change history** → [`CHANGELOG.md`](./CHANGELOG.md)
@@ -73,8 +73,9 @@ output with the canonical JSON Schema (`make validate`). The
 shows a fully-populated event payload spanning multiple domains.
 
 > **Phase 2 — landed.** Canonical JSON Schema (Draft 2020-12) artifacts
-> live under [`schemas/v0.0.3/`](./schemas/v0.0.3/); a 129-fixture
-> conformance suite (67 valid + 46 invalid + 15 edge + 1 legacy) lives
+> live under [`schemas/v0.0.4/`](./schemas/v0.0.4/); a 142-fixture
+> conformance suite (72 valid + 54 invalid + 15 edge + 1 legacy), plus
+> signing test vectors, lives
 > under [`conformance/`](./conformance/); the versioning contract is at
 > [`spec/versioning.md`](./spec/versioning.md). Run `make validate` to
 > exercise the suite locally.
@@ -109,7 +110,7 @@ A minimal UDM event looks like:
 
 ```jsonc
 {
-  "udm_version": "0.0.3",
+  "udm_version": "0.0.4",
   "event_id": "01940000-0000-7000-8000-000000000001",
   "event_type": "telemetry_periodic",
   "source_id": "robot-001",
@@ -138,9 +139,9 @@ for a fully-worked multi-domain example.
 
 | Aspect | State |
 |---|---|
-| Specification text | `v0.0.3` (draft) — see [`CHANGELOG.md`](./CHANGELOG.md) |
-| JSON Schema artifacts | ✅ [`schemas/v0.0.3/`](./schemas/v0.0.3/) (Phase 2) |
-| Conformance suite | ✅ [`conformance/`](./conformance/) — 129 fixtures (Phase 2) |
+| Specification text | `v0.0.4` (draft) — see [`CHANGELOG.md`](./CHANGELOG.md) |
+| JSON Schema artifacts | ✅ [`schemas/v0.0.4/`](./schemas/v0.0.4/) (Phase 2) |
+| Conformance suite | ✅ [`conformance/`](./conformance/) — 142 fixtures (Phase 2) |
 | Versioning contract | ✅ [`spec/versioning.md`](./spec/versioning.md) (Phase 2) |
 | CLI | ✅ [`crates/udm-cli/`](./crates/udm-cli/) |
 | MCP server | ✅ [`crates/udm-mcp/`](./crates/udm-mcp/) |

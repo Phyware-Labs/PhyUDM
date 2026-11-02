@@ -1,5 +1,5 @@
 {
-  "udm_version": "0.0.3",
+  "udm_version": "0.0.4",
   "event_id": "01940000-0000-7000-8000-000000000004",
   "event_type": "state_transition",
   "source_id": "amr-001",

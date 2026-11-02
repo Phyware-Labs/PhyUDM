@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Generate canonical UDM JSON Schema (Draft 2020-12) artifacts.
 
-This is the first-pass schema generator for PhyUDM v0.0.3. It encodes the
+This is the first-pass schema generator for PhyUDM (current version: see
+``VERSION``). It encodes the
 known surface area of every domain from the Rust source-of-truth at
 ``PhyTrace/rust-sdk/src/models/domains/*.rs``.
 
-For v0.0.3 the schemas are deliberately scoped to:
+The schemas are deliberately scoped to:
 
   * Strong typing for envelope fields + cross-domain enums.
   * Top-level domain field names + primitive types from each
@@ -18,7 +19,8 @@ Run from the repo root::
 
     python3 tools/build_schemas.py
 
-This rewrites every ``schemas/v0.0.3/**/*.schema.json`` in place. The
+This rewrites every ``schemas/v<VERSION>/**/*.schema.json`` in place;
+earlier published versions are never touched. The
 generated JSON is the canonical artifact — third-party validators consume
 the JSON, not this script.
 """
@@ -29,7 +31,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-VERSION = "0.0.3"
+VERSION = "0.0.4"
 SCHEMA_HOST = "https://schemas.phyudm.org"
 BASE_ID = f"{SCHEMA_HOST}/v{VERSION}"
 DRAFT = "https://json-schema.org/draft/2020-12/schema"

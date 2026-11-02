@@ -1,12 +1,25 @@
 # Unified Data Model (UDM) Specification
 
-**Version:** 0.0.3  
+**Version:** 0.0.4  
 **Status:** Draft  
-**Date:** January 12, 2026
+**Date:** November 1, 2026
 
 ---
 
 ## Changelog
+
+### Version 0.0.4 (November 1, 2026)
+
+**Signed provenance, batch signatures and heartbeats:**
+- **Provenance:** defines the producer-side `provenance` block and its
+  signing payload, the `es256` and `hmac-sha256` algorithms, ordering and
+  replay (`sequence_num`, `boot_epoch`, `boot_counter`), device
+  attestation, and Merkle batch signatures (`udm.merkle-batch.v1`). See
+  [Provenance Metadata](#provenance-metadata).
+- **Heartbeats:** adds the `system.heartbeat` event type and the
+  `heartbeat` block (`interval_sec`, `agent_id`, `agent_version`).
+- **Compatibility:** all new fields are optional; provenance signatures
+  must be lowercase hex.
 
 ### Version 0.0.3 (January 12, 2026)
 
@@ -184,8 +197,8 @@ When referencing a physical object, use the following structure:
 
 ```json
 {
-  "udm_version": "0.0.3",
-  "udm_schema": "https://schemas.phyudm.org/v0.0.3"
+  "udm_version": "0.0.4",
+  "udm_schema": "https://schemas.phyudm.org/v0.0.4"
 }
 ```
 
@@ -252,7 +265,7 @@ Every UDM event is wrapped in a standard envelope:
 | `ai.intervention` | Human override of AI decision |
 | `system.startup` | System initialization |
 | `system.shutdown` | System shutdown |
-| `system.heartbeat` | Producer liveness heartbeat; see [Heartbeats](./provenance.md#heartbeats) |
+| `system.heartbeat` | Producer liveness heartbeat; see [Heartbeats](#heartbeats) |
 | `system.error` | System error occurred |
 | `interaction.gesture_detected` | Human gesture recognized |
 | `interaction.voice_command` | Voice command received |
@@ -2496,7 +2509,7 @@ Consequences:
   timestamps) changes the payload. A receiver that needs to re-check the
   signature later MUST keep the event as received.
 
-[`conformance/vectors/provenance-signing.json`](../conformance/vectors/provenance-signing.json)
+[`conformance/vectors/provenance-signing.json`](https://github.com/Phyware-Labs/PhyUDM/blob/main/conformance/vectors/provenance-signing.json)
 holds events, their signing payloads and reference HMACs. Implementations
 MUST reproduce every payload byte for byte.
 
@@ -2585,7 +2598,7 @@ sign a batch of events at once. Each event in the batch then carries
 A verifier recomputes the leaf hash, folds in the proof to reach the root,
 checks the root equals `statement.root`, and verifies `signature` over the
 statement. Each event remains independently verifiable.
-[`conformance/vectors/merkle-batch.json`](../conformance/vectors/merkle-batch.json)
+[`conformance/vectors/merkle-batch.json`](https://github.com/Phyware-Labs/PhyUDM/blob/main/conformance/vectors/merkle-batch.json)
 holds reference trees and a complete batch.
 
 ### Heartbeats

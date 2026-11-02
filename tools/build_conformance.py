@@ -24,7 +24,7 @@ from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFORMANCE_DIR = REPO_ROOT / "conformance"
-SCHEMA_VERSION = "0.0.3"
+SCHEMA_VERSION = "0.0.4"
 
 EVENT_SCHEMA = "event.schema.json"
 DOMAIN_SCHEMA_TEMPLATE = "domains/{slug}.schema.json"

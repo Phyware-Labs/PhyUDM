@@ -1,6 +1,6 @@
 # Unified Data Model (UDM) Specification
 
-**Version:** 0.0.3  
+**Version:** 0.0.4  
 **Status:** Draft  
 **Date:** January 12, 2026
 
@@ -27,11 +27,11 @@ diffing across versions.
 
 ## Domain schemas (23)
 
-> The canonical schema artifacts (`schemas/v0.0.3/domains/*`) cover the
+> The canonical schema artifacts (`schemas/v0.0.4/domains/*`) cover the
 > 23 structured domains below. Free-form vendor or experimental data
 > belongs in the event-level `extensions` field (see
 > [`spec/event-example.md`](./event-example.md)); a dedicated "Extensions
-> Domain" is *not* part of `v0.0.3` even though the narrative page below
+> Domain" is *not* part of `v0.0.4` even though the narrative page below
 > describes the design intent for a future structured form.
 
 - [1. Identity Domain](./domains/01-identity.md)
@@ -58,7 +58,7 @@ diffing across versions.
 - [22. Environment Interaction Domain](./domains/22-environment-interaction.md)
 - [23. Compliance/Certification Domain](./domains/23-compliance-certification.md)
 - [24. Extensions Domain](./domains/24-extensions.md) — *narrative only in
-  `v0.0.3`; no JSON Schema artifact. Use the envelope-level `extensions`
+  `v0.0.4`; no JSON Schema artifact. Use the envelope-level `extensions`
   field. See [versioning.md](./versioning.md) for the upgrade path.*
 
 ## Reference & operational guidance
