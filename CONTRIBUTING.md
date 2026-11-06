@@ -30,6 +30,17 @@ contributions are most welcome today are:
 - [ ] Spec text remains vendor-neutral (no proprietary product names).
 - [ ] Examples validate against the JSON Schema artifacts (once published).
 
+## Releasing
+
+1. Set the workspace `version` in `Cargo.toml` (and the `version` of each
+   internal path dependency) to the spec version being released, and move
+   the `Unreleased` CHANGELOG entries under a `## [x.y.z] — date` heading.
+2. Merge, then tag `main` and push the tag:
+   `git tag -a vX.Y.Z -m "UDM vX.Y.Z" && git push origin vX.Y.Z`.
+3. The `Release` workflow builds the binaries and creates the GitHub release.
+   It fails if the tag does not match the workspace version. To rebuild an
+   existing tag, run the workflow manually with that tag.
+
 ## Developer Certificate of Origin
 
 By contributing to this repository you agree to the

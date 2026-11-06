@@ -29,12 +29,17 @@ Commands:
 
 ## Install
 
+Prebuilt `udm` and `udm-mcp` binaries for Linux (x86_64, aarch64; glibc
+2.17+) and macOS (Apple silicon, Intel) are attached to each
+[GitHub release](https://github.com/Phyware-Labs/PhyUDM/releases), with a
+`SHA256SUMS` file. The release notes show the download commands.
+
 ```bash
+# From a local checkout (needs a Rust toolchain):
+cargo install --path crates/udm-cli
+
 # From crates.io (once published):
 cargo install udm-cli
-
-# Or from a local checkout:
-cargo install --path crates/udm-cli
 ```
 
 ## Audiences

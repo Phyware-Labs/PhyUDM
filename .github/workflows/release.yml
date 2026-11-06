@@ -1,0 +1,216 @@
+name: Release
+
+# Builds the `udm` (udm-cli) and `udm-mcp` binaries for Linux and macOS and
+# attaches them, with a SHA256SUMS file, to the GitHub release for the tag.
+#
+#   git tag -a v0.0.5 -m "UDM v0.0.5" && git push origin v0.0.5
+#
+# The tag must match the workspace version in Cargo.toml.  To (re)build an
+# existing tag, run the workflow manually with that tag; assets already on
+# the release are replaced, so a re-run is safe.
+#
+# Linux binaries are built with cargo-zigbuild against glibc 2.17, so they
+# run on older distributions (e.g. Ubuntu 20.04 on Jetson) as well as new
+# ones.  Both macOS binaries come from one Apple-silicon runner (macos-latest,
+# which follows GitHub's image retirements).
+#
+# Publishing to crates.io is off until the repository variable
+# PUBLISH_CRATES is set to `true` (and the CARGO_REGISTRY_TOKEN secret is
+# set).  crates.io versions cannot be deleted, only yanked.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to build and release, e.g. v0.0.5
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+            targets: x86_64-unknown-linux-gnu aarch64-unknown-linux-gnu
+            zig: true
+          - name: macos
+            os: macos-latest
+            targets: aarch64-apple-darwin x86_64-apple-darwin
+            zig: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Add targets
+        run: rustup target add ${{ matrix.targets }}
+
+      - name: Check the tag matches the workspace version
+        run: |
+          version=$(cargo metadata --no-deps --format-version 1 \
+            | jq -r '.packages[] | select(.name == "udm-cli") | .version')
+          if [ "v$version" != "$TAG" ]; then
+            echo "::error::tag $TAG does not match the workspace version $version"
+            exit 1
+          fi
+
+      - name: Set up Python (for cargo-zigbuild)
+        if: matrix.zig
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install cargo-zigbuild
+        if: matrix.zig
+        run: pip install "cargo-zigbuild==0.24.1" "ziglang==0.17.1"
+
+      - name: Build and package
+        env:
+          TARGETS: ${{ matrix.targets }}
+          ZIG: ${{ matrix.zig }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for target in $TARGETS; do
+            if [ "$ZIG" = "true" ]; then
+              cargo zigbuild --release --locked -p udm-cli -p udm-mcp --target "$target.2.17"
+            else
+              cargo build --release --locked -p udm-cli -p udm-mcp --target "$target"
+            fi
+            pkg="udm-$TAG-$target"
+            mkdir -p "dist/$pkg"
+            cp "target/$target/release/udm" "target/$target/release/udm-mcp" \
+               LICENSE NOTICE README.md "dist/$pkg/"
+            tar -C dist -czf "dist/$pkg.tar.gz" "$pkg"
+            rm -rf "dist/$pkg"
+          done
+
+      - name: Smoke test the native binaries
+        run: |
+          set -euo pipefail
+          host=$(rustc -vV | sed -n 's/^host: //p')
+          dir=$(mktemp -d)
+          tar -C "$dir" -xzf "dist/udm-$TAG-$host.tar.gz"
+          "$dir/udm-$TAG-$host/udm" --version | grep -qx "udm ${TAG#v}"
+          "$dir/udm-$TAG-$host/udm-mcp" --version | grep -qx "udm-mcp ${TAG#v}"
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.name }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  release:
+    name: GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Download
+        uses: actions/download-artifact@v4
+        with:
+          pattern: dist-*
+          merge-multiple: true
+          path: dist
+
+      - name: Checksums
+        run: cd dist && sha256sum -- *.tar.gz > SHA256SUMS && cat SHA256SUMS
+
+      # The version's CHANGELOG section, then install instructions.
+      - name: Release notes
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          awk -v v="$version" '
+            /^## \[/ { if (found) exit; if (index($0, "## [" v "]") == 1) { found = 1; next } }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          cat >> notes.md <<EOF
+
+          ## Install the \`udm\` and \`udm-mcp\` binaries
+
+          Download the archive for your platform, check it against \`SHA256SUMS\`
+          and put the binaries on your \`PATH\`:
+
+          \`\`\`bash
+          target=x86_64-unknown-linux-gnu   # or aarch64-unknown-linux-gnu, aarch64-apple-darwin, x86_64-apple-darwin
+          gh release download $TAG -R ${{ github.repository }} -p "udm-$TAG-\$target.tar.gz" -p SHA256SUMS
+          sha256sum --ignore-missing -c SHA256SUMS   # macOS: shasum -a 256 --ignore-missing -c SHA256SUMS
+          tar -xzf "udm-$TAG-\$target.tar.gz"
+          sudo install "udm-$TAG-\$target/udm" "udm-$TAG-\$target/udm-mcp" /usr/local/bin/
+          \`\`\`
+
+          Linux binaries need glibc 2.17 or newer.
+          EOF
+          cat notes.md
+
+      - name: Create or update the release
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            prerelease=()
+            case "$TAG" in *-*) prerelease=(--prerelease) ;; esac
+            gh release create "$TAG" dist/* --verify-tag --notes-file notes.md \
+              --title "UDM $TAG" "${prerelease[@]}"
+          fi
+
+  publish-crates:
+    name: Publish to crates.io
+    needs: release
+    if: vars.PUBLISH_CRATES == 'true'
+    runs-on: ubuntu-latest
+    env:
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      # Dependency order.  Versions already on crates.io are skipped, so a
+      # re-run after a partial failure picks up where it stopped.
+      - name: Publish
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          for crate in udm-eventstore udm-eventstore-memory udm-eventstore-phycloud udm-cli udm-mcp; do
+            status=$(curl -s -o /dev/null -w '%{http_code}' \
+              -A "PhyUDM release workflow (https://github.com/${{ github.repository }})" \
+              "https://crates.io/api/v1/crates/$crate/$version")
+            if [ "$status" = "200" ]; then
+              echo "$crate $version is already published"
+              continue
+            fi
+            cargo publish --locked -p "$crate"
+          done
