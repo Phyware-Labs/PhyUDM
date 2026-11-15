@@ -1,6 +1,5 @@
 # udm-cli
 
-[![Crate](https://img.shields.io/crates/v/udm-cli.svg)](https://crates.io/crates/udm-cli)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](../../LICENSE)
 
 `udm` — command-line tool for validating, exploring, and analysing UDM

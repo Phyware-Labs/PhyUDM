@@ -1,6 +1,5 @@
 # udm-eventstore
 
-[![Crate](https://img.shields.io/crates/v/udm-eventstore.svg)](https://crates.io/crates/udm-eventstore)
 [![Docs](https://docs.rs/udm-eventstore/badge.svg)](https://docs.rs/udm-eventstore)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](../../LICENSE)
 

@@ -1,18 +1,16 @@
 # udm-mcp
 
-[![Crate](https://img.shields.io/crates/v/udm-mcp.svg)](https://crates.io/crates/udm-mcp)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](../../LICENSE)
 
 `udm-mcp` — Model Context Protocol server that exposes UDM telemetry
 analysis tools to any MCP-capable LLM agent (Claude Desktop, Cursor,
 Copilot CLI, Continue, custom agent frameworks).
 
-> ⭐ **The strategic moat of the PhyUDM epic.** UDM-MCP is the
-> **LLM ↔ physical-world data interface**: it lets an analyst agent
-> reach into a UDM-conforming telemetry store and reason about what an
-> autonomous system did. Producer-side tooling (generating UDM payloads)
-> lives in the `udm` CLI (`udm template`) and in producer SDKs — not
-> here.
+Point it at a UDM telemetry store and an agent can search events,
+build timelines and investigate what a robot, drone or fleet did,
+whichever vendor built it. Producer-side tooling (generating UDM
+payloads) lives in the `udm` CLI (`udm template`) and in producer
+SDKs, not here.
 
 ## Install + run
 
