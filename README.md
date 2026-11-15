@@ -1,15 +1,19 @@
-# Unified Data Model (UDM)
+# PhyUDM: Unified Data Model for robot and drone telemetry
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 [![Spec Version](https://img.shields.io/badge/spec-v0.0.5-orange.svg)](./spec/udm-spec.md)
 [![Status: Pre-launch](https://img.shields.io/badge/status-pre--launch-yellow.svg)](#status)
 
-> **UDM** is an open, vendor-neutral specification for representing
-> telemetry and events from autonomous systems — mobile robots,
-> manipulators, AGVs/AMRs, humanoids, drones, and the fleets they
-> belong to. UDM gives operators, regulators, and AI agents a single
-> common language for physical-world data, regardless of who built
-> the robot.
+> **PhyUDM** (the Unified Data Model, UDM) is an open, vendor-neutral
+> **robot telemetry schema**: one event format for mobile robots,
+> AMRs/AGVs, cobots and manipulators, humanoids, **drone telemetry**,
+> and the fleets they belong to. It serves as a **ROS 2 data model**
+> that any vendor's stack can map onto, from ROS 2 topics to
+> [ROS 2 graph integrity events](./spec/ros-graph.md), and ships as
+> JSON Schemas with a conformance suite, a CLI and an
+> [MCP server](./crates/udm-mcp/). Operators, regulators and AI agents
+> get a single common language for physical-world data, regardless of
+> who built the robot.
 
 - 📖 **Read the spec** → [`spec/index.md`](./spec/index.md)
 - 🧰 **Single-file copy for diffing** → [`spec/udm-spec.md`](./spec/udm-spec.md)
