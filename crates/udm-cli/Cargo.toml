@@ -16,9 +16,9 @@ name = "udm"
 path = "src/main.rs"
 
 [dependencies]
-udm-eventstore = { path = "../udm-eventstore", version = "0.0.3" }
-udm-eventstore-memory = { path = "../udm-eventstore-memory", version = "0.0.3" }
-udm-eventstore-phycloud = { path = "../udm-eventstore-phycloud", version = "0.0.3" }
+udm-eventstore = { path = "../udm-eventstore", version = "0.0.5" }
+udm-eventstore-memory = { path = "../udm-eventstore-memory", version = "0.0.5" }
+udm-eventstore-phycloud = { path = "../udm-eventstore-phycloud", version = "0.0.5" }
 
 boon = { workspace = true }
 chrono = { workspace = true }

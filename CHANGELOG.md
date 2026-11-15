@@ -26,6 +26,22 @@ once it reaches `v0.1.0`.
   `udm` CLI default and `udm-mcp` move to 0.0.5; the CLI still embeds 0.0.3
   and 0.0.4.
 
+### Added — release binaries
+
+- **`.github/workflows/release.yml`:** pushing a `v*` tag builds `udm` and
+  `udm-mcp` for x86_64 and aarch64 Linux (glibc 2.17+) and for Apple-silicon
+  and Intel macOS, and attaches them with a `SHA256SUMS` file to the GitHub
+  release. The notes come from this file's section for the version.
+  Publishing to crates.io is in the same workflow but stays off until the
+  `PUBLISH_CRATES` repository variable is set.
+
+### Changed
+
+- The Rust crates now carry the spec version: `udm-eventstore`,
+  `udm-eventstore-memory`, `udm-eventstore-phycloud`, `udm-cli` and
+  `udm-mcp` move from 0.0.3 to 0.0.5, so `udm --version` matches the schema
+  the CLI defaults to.
+
 ## [0.0.4] — 2026-11-01
 
 ### Changed — schema version

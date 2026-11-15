@@ -12,7 +12,7 @@ keywords = ["udm", "phyudm", "telemetry", "robotics"]
 categories = ["api-bindings", "data-structures"]
 
 [dependencies]
-udm-eventstore = { path = "../udm-eventstore", version = "0.0.3" }
+udm-eventstore = { path = "../udm-eventstore", version = "0.0.5" }
 async-trait = { workspace = true }
 chrono = { workspace = true }
 futures = { workspace = true }

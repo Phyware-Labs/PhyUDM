@@ -16,8 +16,12 @@ Copilot CLI, Continue, custom agent frameworks).
 
 ## Install + run
 
+Download the prebuilt binary from the
+[GitHub releases](https://github.com/Phyware-Labs/PhyUDM/releases) (Linux
+and macOS, with `SHA256SUMS`), or build it from a checkout:
+
 ```bash
-cargo install udm-mcp
+cargo install --path crates/udm-mcp   # or `cargo install udm-mcp` once on crates.io
 
 # Then wire into your MCP-capable client (Claude Desktop, Cursor, …)
 # by pointing it at the binary with the backend you want to analyse:

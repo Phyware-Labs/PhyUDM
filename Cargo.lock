@@ -1815,7 +1815,7 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "udm-cli"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "assert_cmd",
  "boon",
@@ -1839,7 +1839,7 @@ dependencies = [
 
 [[package]]
 name = "udm-eventstore"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "async-trait",
  "chrono",
@@ -1853,7 +1853,7 @@ dependencies = [
 
 [[package]]
 name = "udm-eventstore-memory"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "async-trait",
  "chrono",
@@ -1867,7 +1867,7 @@ dependencies = [
 
 [[package]]
 name = "udm-eventstore-phycloud"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "async-trait",
  "chrono",
@@ -1881,7 +1881,7 @@ dependencies = [
 
 [[package]]
 name = "udm-mcp"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "boon",
  "chrono",
