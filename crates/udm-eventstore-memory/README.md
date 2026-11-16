@@ -1,6 +1,5 @@
 # udm-eventstore-memory
 
-[![Crate](https://img.shields.io/crates/v/udm-eventstore-memory.svg)](https://crates.io/crates/udm-eventstore-memory)
 [![Docs](https://docs.rs/udm-eventstore-memory/badge.svg)](https://docs.rs/udm-eventstore-memory)
 
 In-process `Vec<UdmEvent>` implementation of

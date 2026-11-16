@@ -1,6 +1,5 @@
 # udm-eventstore-phycloud
 
-[![Crate](https://img.shields.io/crates/v/udm-eventstore-phycloud.svg)](https://crates.io/crates/udm-eventstore-phycloud)
 [![Docs](https://docs.rs/udm-eventstore-phycloud/badge.svg)](https://docs.rs/udm-eventstore-phycloud)
 
 Reference deployment [`UdmEventStore`](../udm-eventstore/) adapter for
