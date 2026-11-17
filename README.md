@@ -97,7 +97,10 @@ goal is for any agent to be able to:
 
 Available today: the [`udm` CLI](./crates/udm-cli/) (validate, explore and
 analyse UDM telemetry), the [`udm-mcp` server](./crates/udm-mcp/) (Model Context
-Protocol tools for LLM agents) and the [AI cookbook](./docs/ai-cookbook/).
+Protocol tools for LLM agents), the [`udm-verify`](./crates/udm-verify/)
+verifier (check signed events and [evidence packages](./spec/evidence-package.md)
+offline, without trusting whoever collected them) and the
+[AI cookbook](./docs/ai-cookbook/).
 
 ---
 
@@ -149,6 +152,7 @@ for a fully-worked multi-domain example.
 | Versioning contract | ✅ [`spec/versioning.md`](./spec/versioning.md) (Phase 2) |
 | CLI | ✅ [`crates/udm-cli/`](./crates/udm-cli/) |
 | MCP server | ✅ [`crates/udm-mcp/`](./crates/udm-mcp/) |
+| Verifier | ✅ [`crates/udm-verify/`](./crates/udm-verify/) and `udm verify`: signatures, batch proofs, replay and [evidence packages](./spec/evidence-package.md), offline |
 | Event-store adapters | ✅ [`crates/udm-eventstore/`](./crates/udm-eventstore/) trait, in-memory and PhyCloud (read path) adapters |
 | AI cookbook | ✅ [`docs/ai-cookbook/`](./docs/ai-cookbook/) |
 

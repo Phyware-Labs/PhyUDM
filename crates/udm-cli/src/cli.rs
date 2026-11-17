@@ -70,6 +70,35 @@ pub enum Command {
         cmd: ConformanceCommand,
     },
 
+    /// Verify provenance: an evidence package, an NDJSON stream of events,
+    /// or a single event. Checks producer signatures (single and Merkle
+    /// batch), sequence and replay, and for packages the receiver's signed
+    /// manifest, Merkle root and hash chain. Needs no service.
+    ///
+    /// Exit codes: 0 verified; 1 a check failed; 3 intact, but the
+    /// package's signer is unconfirmed (no `--trust-key` matched it).
+    Verify {
+        /// Package or event file. Use `-` to read from stdin.
+        file: PathBuf,
+        /// PEM public key of the receiver that signed the package
+        /// (repeatable). Without one, a package can be intact but not
+        /// verified.
+        #[arg(long = "trust-key", value_name = "PEM_FILE")]
+        trust_keys: Vec<PathBuf>,
+        /// PEM public key of a device (repeatable). Packages list their own
+        /// device keys; use this for plain events, or to check a package
+        /// against keys you hold.
+        #[arg(long = "key", value_name = "PEM_FILE")]
+        keys: Vec<PathBuf>,
+        /// Key id of an HMAC-signed stream (development keys only); the
+        /// secret is read from `UDM_HMAC_SECRET`.
+        #[arg(long = "hmac-key-id", value_name = "KEY_ID")]
+        hmac_key_id: Option<String>,
+        /// Print only the summary, not a line per event.
+        #[arg(long)]
+        summary: bool,
+    },
+
     /// Print a skeleton UDM event for hand-editing.
     Template {
         /// Source type (canonical UDM enum value, e.g. `amr`).

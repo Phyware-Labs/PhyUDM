@@ -12,6 +12,7 @@ mod schema;
 mod template;
 mod timeline;
 mod validate;
+mod verify;
 
 use std::time::Duration;
 
@@ -44,6 +45,23 @@ pub async fn dispatch(cli: Cli) -> CliResult<()> {
                 external,
             } => conformance::run(&schema_version, external.as_deref(), stdout.lock()),
         },
+        Command::Verify {
+            file,
+            trust_keys,
+            keys,
+            hmac_key_id,
+            summary,
+        } => verify::run(
+            &verify::Args {
+                file: &file,
+                trust_keys: &trust_keys,
+                keys: &keys,
+                hmac_key_id: hmac_key_id.as_deref(),
+                summary,
+            },
+            output,
+            stdout.lock(),
+        ),
         Command::Template {
             source_type,
             event_type,

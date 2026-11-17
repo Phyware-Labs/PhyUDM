@@ -19,6 +19,7 @@ path = "src/main.rs"
 udm-eventstore = { path = "../udm-eventstore", version = "0.0.5" }
 udm-eventstore-memory = { path = "../udm-eventstore-memory", version = "0.0.5" }
 udm-eventstore-phycloud = { path = "../udm-eventstore-phycloud", version = "0.0.5" }
+udm-verify = { path = "../udm-verify", version = "0.0.5" }
 
 boon = { workspace = true }
 chrono = { workspace = true }

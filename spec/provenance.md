@@ -193,4 +193,6 @@ Receivers often add their own chain-of-custody data, such as ingest time,
 a content hash and a link to the previous event's hash. Those values are
 assigned by the receiver, are not signed by the producer, and SHOULD be kept
 outside the producer's `provenance` block (or in a separate store), so that
-they do not change the signing payload.
+they do not change the signing payload. [Evidence Packages](./evidence-package.md)
+defines how a receiver hands sealed events, its hash chain and the events as
+received to others for offline verification.

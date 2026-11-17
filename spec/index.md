@@ -66,6 +66,7 @@ diffing across versions.
 - [Complete UDM Event Example](./event-example.md)
 - [OpenTelemetry Compatibility Layer](./otel.md)
 - [Provenance Metadata](./provenance.md)
+- [Evidence Packages](./evidence-package.md)
 - [ROS 2 Graph Integrity Events](./ros-graph.md)
 - [Schema Evolution Guidelines](./evolution.md)
 - [Data Quality & Validation](./data-quality.md)

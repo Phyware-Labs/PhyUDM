@@ -204,7 +204,7 @@ jobs:
         run: |
           set -euo pipefail
           version="${TAG#v}"
-          for crate in udm-eventstore udm-eventstore-memory udm-eventstore-phycloud udm-cli udm-mcp; do
+          for crate in udm-eventstore udm-eventstore-memory udm-eventstore-phycloud udm-verify udm-cli udm-mcp; do
             status=$(curl -s -o /dev/null -w '%{http_code}' \
               -A "PhyUDM release workflow (https://github.com/${{ github.repository }})" \
               "https://crates.io/api/v1/crates/$crate/$version")

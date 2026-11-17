@@ -9,6 +9,28 @@ once it reaches `v0.1.0`.
 
 ## [Unreleased]
 
+### Added — open verifier and evidence packages
+
+- **`spec/evidence-package.md`** (also in `spec/udm-spec.md`): the
+  `udm.evidence-package.v1` format, a receiver's signed manifest (version 3:
+  RFC 9162 Merkle root over the events' content hashes, the producers'
+  public keys, `received_hash` per event) followed by one NDJSON record per
+  event, stored and as received. Defines the hash-chain content hash, the
+  trust verdicts (`verified`, `intact_unpinned`, `intact_unsigned`,
+  `failed`) and the verification steps. Version 2 manifests (sorted-pairs
+  tree) are still accepted, with a warning.
+- **`crates/udm-verify`:** an Apache-2.0 verifier with no service
+  dependency: canonical JSON and signing payloads, ES256 and HMAC
+  signatures, Merkle batch proofs, per-source ordering and replay, and
+  evidence packages. No I/O of its own, so it can target WebAssembly and
+  other languages.
+- **`udm verify <file>`:** verifies an evidence package, an NDJSON event
+  stream or a single event. `--trust-key` pins the receiver's key, `--key`
+  adds device keys. Exit codes: 0 verified, 1 failed, 3 intact but the
+  signer is unconfirmed.
+- **`conformance/vectors/evidence-package.json`:** a valid package and
+  tampered variants, with the verdict and error kinds each must produce.
+
 ## [0.0.5] — 2026-11-02
 
 ### Added — ROS 2 graph integrity events
