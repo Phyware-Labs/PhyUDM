@@ -31,6 +31,11 @@ once it reaches `v0.1.0`.
 - **`conformance/vectors/evidence-package.json`:** a valid package and
   tampered variants, with the verdict and error kinds each must produce.
 
+### Fixed
+
+- `spec/udm-spec.md` links the evidence package vectors by URL, like the
+  other vector links, so the single-file copy works outside the repository.
+
 ## [0.0.5] — 2026-11-02
 
 ### Added — ROS 2 graph integrity events

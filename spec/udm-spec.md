@@ -2911,7 +2911,7 @@ manifests use the RFC 9162 tree, which also fixes the order of events.
 
 ### Conformance
 
-[`conformance/vectors/evidence-package.json`](../conformance/vectors/evidence-package.json)
+[`conformance/vectors/evidence-package.json`](https://github.com/Phyware-Labs/PhyUDM/blob/main/conformance/vectors/evidence-package.json)
 holds the receiver's key and a set of packages, valid and tampered, each
 with the verdict and error kinds a verifier must report.
 
