@@ -17,6 +17,7 @@ Commands:
   schema       Inspect UDM JSON Schema artifacts (show, diff)
   explain      Print the spec text for a field path (e.g. `safety/safety_state`)
   conformance  Run the embedded conformance suite against the canonical schema
+  verify       Verify provenance: an evidence package, an NDJSON stream of events, or a single event
   template     Print a skeleton UDM event for hand-editing
   query        Structured search over the event store
   get          Fetch a single event by id
@@ -129,6 +130,25 @@ Supported standards at v0.0.3: `iso-ts-15066`, `iso-13482`, `ansi-ria-r15.06`, `
 ```bash
 udm aggregate --field power/battery/soc_pct --by source_type --agg avg
 ```
+
+### Verify signed events and evidence packages
+
+`udm verify` needs no store and no network. It checks producer signatures
+(single and Merkle batch), ordering and replay, and for an
+[evidence package](../../spec/evidence-package.md) the receiver's signed
+manifest, Merkle root and hash chain, re-checking every event kept as
+received.
+
+```bash
+# An evidence package, against the receiver's published key
+udm verify incident.evidence.ndjson --trust-key phycloud-evidence.pem --output pretty
+
+# A stream of events, against a device's public key
+udm verify events.ndjson --key amr-001.pem --summary
+```
+
+Exit codes: `0` verified, `1` a check failed, `3` intact but the signer is
+unconfirmed (no `--trust-key` matched the package's manifest key).
 
 ## Filter expression syntax
 

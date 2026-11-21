@@ -6,6 +6,7 @@ members = [
     "crates/udm-eventstore-phycloud",
     "crates/udm-cli",
     "crates/udm-mcp",
+    "crates/udm-verify",
 ]
 
 [workspace.package]

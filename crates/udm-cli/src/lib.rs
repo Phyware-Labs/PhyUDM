@@ -37,6 +37,10 @@ pub enum CliError {
     /// Schema validation failed (validate / conformance commands).
     #[error("validation: {0}")]
     Validation(String),
+    /// Verification found the input intact, but could not confirm who
+    /// signed it (exit code 3).
+    #[error("unconfirmed: {0}")]
+    Unconfirmed(String),
     /// Unknown schema version requested.
     #[error(
         "unknown schema version: {0} (supported: {})",
@@ -52,6 +56,7 @@ pub type CliResult<T> = std::result::Result<T, CliError>;
 pub fn exit_code(err: &CliError) -> i32 {
     match err {
         CliError::Usage(_) | CliError::UnknownSchemaVersion(_) => 2,
+        CliError::Unconfirmed(_) => 3,
         _ => 1,
     }
 }

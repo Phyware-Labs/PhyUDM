@@ -1,0 +1,27 @@
+[package]
+name = "udm-verify"
+description = "Open verifier for PhyUDM provenance: event signatures, Merkle batch proofs, sequence and replay checks, and signed evidence packages, with no service dependency."
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+keywords = ["udm", "phyudm", "provenance", "signature", "verification"]
+categories = ["cryptography", "encoding"]
+
+[dependencies]
+chrono = { workspace = true }
+hmac = "0.12"
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "pem", "std"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = "0.10"
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+
+[lints]
+workspace = true

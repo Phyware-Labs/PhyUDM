@@ -6,6 +6,16 @@ This page mirrors the `## Changelog` section of the monolithic
 spec text), see the root [`CHANGELOG.md`](../CHANGELOG.md).
 
 
+### Unreleased
+
+**Evidence packages:**
+- **Format:** `udm.evidence-package.v1`, NDJSON with a receiver-signed
+  manifest (version 3: RFC 9162 Merkle root, producer keys,
+  `received_hash`) and one record per event, stored and as received, so
+  anyone can verify sealed events offline. Defines the hash-chain content
+  hash, trust verdicts and verification steps. See
+  [Evidence Packages](./evidence-package.md).
+
 ### Version 0.0.5 (November 2, 2026)
 
 **ROS 2 graph integrity events:**
